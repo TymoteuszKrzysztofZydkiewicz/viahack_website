@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 263 70% 14%;
+    --foreground: 0 0% 95%;
+    --card: 263 60% 18%;
+    --card-foreground: 0 0% 95%;
+    --popover: 263 60% 18%;
+    --popover-foreground: 0 0% 95%;
+    --primary: 320 100% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 185 100% 50%;
+    --secondary-foreground: 263 70% 14%;
+    --muted: 263 50% 22%;
+    --muted-foreground: 260 20% 70%;
+    --accent: 185 100% 50%;
+    --accent-foreground: 263 70% 14%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 263 40% 30%;
+    --input: 263 40% 25%;
+    --ring: 320 100% 60%;
+    --chart-1: 320 100% 60%;
+    --chart-2: 185 100% 50%;
+    --chart-3: 263 70% 50%;
+    --chart-4: 45 100% 60%;
+    --chart-5: 120 60% 50%;
+    --radius: 0.75rem;
+    --neon-pink: 320 100% 60%;
+    --neon-cyan: 185 100% 50%;
+    --deep-purple: 263 70% 14%;
+    --mid-purple: 263 60% 22%;
+    --glow-pink: 320 100% 70%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .font-pixel {
+    font-family: 'Press Start 2P', cursive;
+  }
+  .pixel-border {
+    box-shadow:
+      4px 0 0 0 hsl(var(--border)),
+      -4px 0 0 0 hsl(var(--border)),
+      0 4px 0 0 hsl(var(--border)),
+      0 -4px 0 0 hsl(var(--border));
+  }
+  .glow-pink {
+    text-shadow:
+      0 0 10px hsl(320 100% 60% / 0.6),
+      0 0 20px hsl(320 100% 60% / 0.4),
+      0 0 40px hsl(320 100% 60% / 0.2);
+  }
+  .glow-cyan {
+    text-shadow:
+      0 0 10px hsl(185 100% 50% / 0.6),
+      0 0 20px hsl(185 100% 50% / 0.4),
+      0 0 40px hsl(185 100% 50% / 0.2);
+  }
+  .glow-box-pink {
+    box-shadow:
+      0 0 15px hsl(320 100% 60% / 0.3),
+      0 0 30px hsl(320 100% 60% / 0.15),
+      inset 0 0 15px hsl(320 100% 60% / 0.05);
+  }
+  .glow-box-cyan {
+    box-shadow:
+      0 0 15px hsl(185 100% 50% / 0.3),
+      0 0 30px hsl(185 100% 50% / 0.15),
+      inset 0 0 15px hsl(185 100% 50% / 0.05);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes pixel-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 6s ease-in-out infinite;
+}
+
+.animate-pixel-blink {
+  animation: pixel-blink 2s ease-in-out infinite;
+}
