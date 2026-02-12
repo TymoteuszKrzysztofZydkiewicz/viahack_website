@@ -12,7 +12,7 @@ import { Footer } from "@/components/footer"
 export default function Page() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <main>
         <HeroSection />
         <div className="h-px bg-border/30" />
@@ -28,7 +28,7 @@ export default function Page() {
         <div className="h-px bg-border/30" />
         <FaqSection />
         <div className="h-px bg-border/30" />
-        <ContactSection />
+        {/* <ContactSection /> */}
       </main>
       <Footer />
     </>

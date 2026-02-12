@@ -2,24 +2,17 @@ import { Clock } from "lucide-react"
 
 export function ScheduleSection() {
   const day1 = [
-    { time: "09:00", event: "Registration & Check-in", type: "setup" },
-    { time: "10:00", event: "Opening Ceremony", type: "ceremony" },
-    { time: "10:30", event: "Challenge Reveal", type: "highlight" },
-    { time: "11:00", event: "Hacking Begins!", type: "coding" },
-    { time: "13:00", event: "Lunch Break", type: "break" },
-    { time: "15:00", event: "Mentor Check-in #1", type: "mentor" },
-    { time: "19:00", event: "Dinner", type: "break" },
-    { time: "22:00", event: "Late Night Snacks", type: "break" },
+    { time: "12:00", event: "Registration & Check-in", type: "setup" },
+    { time: "12:30", event: "Opening Ceremony", type: "ceremony" },
+    { time: "13:00", event: "Hacking Begins!", type: "coding" },
   ]
 
   const day2 = [
-    { time: "08:00", event: "Breakfast", type: "break" },
-    { time: "09:00", event: "Final Sprint", type: "coding" },
-    { time: "11:00", event: "Code Freeze", type: "highlight" },
-    { time: "11:30", event: "Presentations Begin", type: "ceremony" },
-    { time: "13:00", event: "Jury Deliberation", type: "ceremony" },
-    { time: "14:00", event: "Winner Announcement", type: "highlight" },
-    { time: "14:30", event: "Closing Ceremony", type: "ceremony" },
+    { time: "10:00", event: "Prejudging begins", type: "highlight" },
+    { time: "13:00", event: "Time's up!", type: "ceremony" },
+    { time: "13:30", event: "Project presentations", type: "ceremony" },
+    { time: "15:30", event: "Winner announcements", type: "highlight" },
+    { time: "16:00", event: "Closing ceremony", type: "ceremony" },
   ]
 
   const typeColors: Record<string, string> = {
@@ -47,7 +40,6 @@ export function ScheduleSection() {
           Event Schedule
         </h2>
         <p className="text-center text-muted-foreground mb-16 max-w-lg mx-auto leading-relaxed">
-          Two days of non-stop innovation, from challenge reveal to winner announcement.
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -56,7 +48,7 @@ export function ScheduleSection() {
             <div className="flex items-center gap-3 mb-6">
               <Clock className="h-5 w-5 text-neon-pink" />
               <h3 className="font-pixel text-xs text-neon-pink">
-                Day 1 - May 2
+                Day 1 - March 20
               </h3>
             </div>
             <div className="flex flex-col gap-3">
@@ -80,7 +72,7 @@ export function ScheduleSection() {
             <div className="flex items-center gap-3 mb-6">
               <Clock className="h-5 w-5 text-neon-cyan" />
               <h3 className="font-pixel text-xs text-neon-cyan">
-                Day 2 - May 3
+                Day 2 - March 21
               </h3>
             </div>
             <div className="flex flex-col gap-3">

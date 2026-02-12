@@ -17,22 +17,22 @@ export function FaqSection() {
     {
       question: "Do I need a team?",
       answer:
-        "You can sign up individually or as a team (2-5 members). If you register solo, we will help you find a team during the event. No one hacks alone at VIAHACK!",
+        "Participants should register in teams of 3–4 members. This requirement ensures a fair and efficient judging process while allowing enough collaboration for teams to develop strong and well-rounded submissions within the event timeframe.",
     },
     {
       question: "What should I bring?",
       answer:
-        "Bring your laptop, charger, and any tools you prefer to work with. We provide internet, food, drinks, and a workspace. A sleeping bag is optional but recommended for the overnight session.",
+        "Bring your own laptop, charger, and any tools you like to work with. We’ll provide internet access and a workspace for everyone. Depending on sponsorships, we’re also planning to offer food and drinks - we’ll share more details about what’s included closer to the event.",
     },
     {
       question: "Is it free?",
       answer:
-        "Yes! VIAHACK is completely free to attend. Food, drinks, snacks, and all materials are provided throughout the event thanks to our sponsors.",
+        "Yes! VIAHACK is completely free to attend.",
     },
     {
       question: "Do I need prior experience?",
       answer:
-        "While some coding experience is helpful, we welcome all skill levels. The hackathon is about learning, collaborating, and pushing yourself. Mentors will be available to help throughout.",
+        "While some coding experience is helpful, we welcome all skill levels. The hackathon is about learning, collaborating, and pushing yourself.",
     },
     {
       question: "What happens with our projects?",

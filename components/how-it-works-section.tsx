@@ -3,7 +3,7 @@ export function HowItWorksSection() {
     {
       number: "01",
       title: "Form Teams",
-      description: "Find your crew or join a team. 2-5 members per team.",
+      description: "Find your crew or join a team. 3-4 members per team.",
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="12" y="0" width="8" height="8" fill="hsl(185 100% 50%)" />
@@ -22,8 +22,8 @@ export function HowItWorksSection() {
     },
     {
       number: "02",
-      title: "Get the Challenge",
-      description: "Receive a real-world problem from our industry partners.",
+      title: "Get the Case",
+      description: "Guiding participants while leaving room for creativity.",
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="4" y="0" width="20" height="4" fill="hsl(320 100% 55%)" />
@@ -56,7 +56,7 @@ export function HowItWorksSection() {
     {
       number: "04",
       title: "Present",
-      description: "Pitch your solution to the jury and audience.",
+      description: "Pitch your project to the jury and audience.",
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="4" y="0" width="24" height="4" fill="hsl(45 100% 55%)" />

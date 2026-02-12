@@ -16,9 +16,9 @@ export function AboutSection() {
     },
     {
       icon: Lightbulb,
-      title: "Real Problems",
+      title: "Emphasis on Creativity",
       description:
-        "Tackle real challenges provided by industry partners. Your solutions can make a real impact.",
+        "We emphasize creativity, encouraging bold ideas and innovative thinking.",
     },
     {
       icon: Trophy,

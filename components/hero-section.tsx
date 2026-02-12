@@ -38,7 +38,7 @@ export function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-muted-foreground">
           <span className="flex items-center gap-2 font-pixel text-[10px]">
             <Calendar className="h-4 w-4 text-neon-cyan" />
-            2-3 May 2025
+            20-21 March 2026
           </span>
           <span className="flex items-center gap-2 font-pixel text-[10px]">
             <MapPin className="h-4 w-4 text-neon-pink" />
@@ -49,16 +49,10 @@ export function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 mt-4">
           <a
-            href="#register"
-            className="font-pixel text-xs px-8 py-4 bg-neon-pink text-primary-foreground rounded-lg glow-box-pink hover:brightness-110 transition-all"
-          >
-            Register Now
-          </a>
-          <a
-            href="mailto:viahack@via.dk"
+            href="mailto:hackathon@viauc.dk"
             className="font-pixel text-xs px-8 py-4 border-2 border-neon-cyan text-neon-cyan rounded-lg glow-box-cyan hover:bg-neon-cyan/10 transition-all"
           >
-            Work Together
+            Work with us
           </a>
         </div>
       </div>

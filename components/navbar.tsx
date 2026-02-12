@@ -5,12 +5,12 @@ import { Menu, X } from "lucide-react"
 import { PixelStar } from "./pixel-decorations"
 
 const links = [
-  { label: "About", href: "#about" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Schedule", href: "#schedule" },
-  { label: "Previous", href: "#previous" },
-  { label: "FAQ", href: "#faq" },
-  { label: "Contact", href: "#contact" },
+  // { label: "About", href: "#about" },
+  // { label: "How It Works", href: "#how-it-works" },
+  // { label: "Schedule", href: "#schedule" },
+  // { label: "Previous", href: "#previous" },
+  // { label: "FAQ", href: "#faq" },
+  // { label: "Contact", href: "#contact" },
 ]
 
 export function Navbar() {
@@ -38,26 +38,18 @@ export function Navbar() {
           ))}
         </nav>
 
-        {/* CTA */}
-        <a
-          href="#register"
-          className="hidden md:block font-pixel text-[9px] px-5 py-2 bg-neon-pink text-primary-foreground rounded-lg hover:brightness-110 transition-all"
-        >
-          Register
-        </a>
-
         {/* Mobile toggle */}
-        <button
+        {/* <button
           className="md:hidden text-foreground"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
           {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        </button> */}
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
+      {/* {mobileOpen && (
         <nav className="md:hidden border-t border-border/50 bg-background/95 backdrop-blur-md px-4 py-4">
           <div className="flex flex-col gap-4">
             {links.map((link) => (
@@ -70,16 +62,9 @@ export function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#register"
-              className="font-pixel text-[9px] px-5 py-2 bg-neon-pink text-primary-foreground rounded-lg hover:brightness-110 transition-all text-center mt-2"
-              onClick={() => setMobileOpen(false)}
-            >
-              Register
-            </a>
           </div>
         </nav>
-      )}
+      )} */}
     </header>
   )
 }

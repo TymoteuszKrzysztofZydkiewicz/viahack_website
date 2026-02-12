@@ -1,25 +1,36 @@
 import { Users, FolderGit2, GraduationCap } from "lucide-react"
+import hackathonImg1 from '../images/hackathon_2025_img1.jpg';
+import hackathonImg2 from '../images/hackathon_2025_img2.jpg';
+import hackathonImg3 from '../images/hackathon_2025_img3.jpg';
+import hackathonImg4 from '../images/hackathon_2025_img4.jpg';
+import redbull from '../images/redbull.png';
+import coflow from '../images/coflow.png';
+import ida from '../images/ida.png';
+import kbsoftware from '../images/kbsoftware.png';
+import sharkgaming from '../images/sharkgaming.svg';
+import campuscafe from '../images/campuscafe.png';
+
 
 export function PreviousEditionSection() {
   const stats = [
     {
       icon: Users,
-      value: "80+",
+      value: "50+",
       label: "Participants",
       color: "text-neon-pink",
       glow: "glow-box-pink",
     },
     {
       icon: FolderGit2,
-      value: "15+",
+      value: "10",
       label: "Projects Created",
       color: "text-neon-cyan",
       glow: "glow-box-cyan",
     },
     {
       icon: GraduationCap,
-      value: "10+",
-      label: "Mentors",
+      value: "3",
+      label: "Jury",
       color: "text-neon-pink",
       glow: "glow-box-pink",
     },
@@ -55,34 +66,20 @@ export function PreviousEditionSection() {
         {/* Gallery frames */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
           {[
-            "Teams collaborating during the hackathon",
-            "Presenting projects to jury",
-            "Late night coding session",
-            "Winner announcement ceremony",
-          ].map((alt, i) => (
-            <div
+            hackathonImg1.src,
+            hackathonImg2.src,
+            hackathonImg3.src,
+            hackathonImg4.src
+          ].map((src, i) => (
+            <img
+              src={src}
               key={i}
-              className="aspect-square rounded-lg border-2 border-border bg-mid-purple flex items-center justify-center overflow-hidden"
+              className="object-cover aspect-square rounded-lg border-2 border-border bg-mid-purple flex items-center justify-center overflow-hidden"
               style={{
-                boxShadow: `inset 0 0 20px hsl(263 60% 10%), 0 0 10px hsl(${
-                  i % 2 === 0 ? "320 100% 60%" : "185 100% 50%"
-                } / 0.15)`,
+                boxShadow: `inset 0 0 20px hsl(263 60% 10%), 0 0 10px hsl(${i % 2 === 0 ? "320 100% 60%" : "185 100% 50%"
+                  } / 0.15)`,
               }}
-            >
-              <div className="flex flex-col items-center gap-2 p-4 text-center">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <rect x="4" y="4" width="24" height="20" fill="hsl(263 40% 30%)" />
-                  <rect x="8" y="8" width="16" height="12" fill="hsl(263 40% 25%)" />
-                  <rect x="10" y="14" width="4" height="6" fill="hsl(120 50% 40%)" />
-                  <rect x="16" y="10" width="4" height="10" fill="hsl(120 50% 35%)" />
-                  <rect x="22" y="16" width="4" height="4" fill="hsl(45 100% 60%)" />
-                  <rect x="4" y="24" width="24" height="4" fill="hsl(263 40% 35%)" />
-                </svg>
-                <span className="font-pixel text-[7px] text-muted-foreground leading-relaxed">
-                  {alt}
-                </span>
-              </div>
-            </div>
+            ></img>
           ))}
         </div>
 
@@ -93,18 +90,20 @@ export function PreviousEditionSection() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-8">
             {[
-              "Shark Gaming",
-              "Red Bull",
-              "IDA",
-              "KB Software",
-              "CoFlow Visuals",
-            ].map((name) => (
-              <div
-                key={name}
-                className="rounded-lg border border-border bg-card px-6 py-3 text-sm text-muted-foreground hover:border-neon-cyan/30 transition-colors"
-              >
-                {name}
-              </div>
+              { "src": coflow.src, "link": "https://www.coflowvisuals.com/" },
+              { "src": kbsoftware.src, "link": "https://kbsoftware.dk/" },
+              { "src": redbull.src, "link": "https://www.redbull.com/" },
+              { "src": ida.src, "link": "https://studerende.ida.dk/" },
+              { "src": campuscafe.src, "link": "https://www.instagram.com/campus.cafe/" },
+              { "src": sharkgaming.src, "link": "https://sharkgaming.dk/" },
+            ].map((company, i) => (
+              <a href={company.link} target="_blank" rel="noopener noreferrer">
+                <img
+                  key={i}
+                  src={company.src}
+                  className="w-32 h-32 sm:w-32 sm:h-32 object-contain rounded-lg border border-border bg-card text-sm text-muted-foreground hover:border-neon-cyan/30 transition-colors"
+                ></img>
+              </a>
             ))}
           </div>
         </div>
