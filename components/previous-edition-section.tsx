@@ -90,18 +90,18 @@ export function PreviousEditionSection() {
           </p>
           <div className="flex flex-wrap items-center justify-center gap-8">
             {[
-              { "src": coflow.src, "link": "https://www.coflowvisuals.com/" },
-              { "src": kbsoftware.src, "link": "https://kbsoftware.dk/" },
-              { "src": redbull.src, "link": "https://www.redbull.com/" },
-              { "src": ida.src, "link": "https://studerende.ida.dk/" },
-              { "src": campuscafe.src, "link": "https://www.instagram.com/campus.cafe/" },
-              { "src": sharkgaming.src, "link": "https://sharkgaming.dk/" },
+              { "src": coflow.src, "link": "https://www.coflowvisuals.com/", "bg": "bg-card" },
+              { "src": kbsoftware.src, "link": "https://kbsoftware.dk/", "bg": "bg-white" },
+              { "src": redbull.src, "link": "https://www.redbull.com/", "bg": "bg-card" },
+              { "src": ida.src, "link": "https://studerende.ida.dk/", "bg": "bg-card" },
+              { "src": campuscafe.src, "link": "https://www.instagram.com/campus.cafe/", "bg": "bg-card" },
+              { "src": sharkgaming.src, "link": "https://sharkgaming.dk/", "bg": "bg-card" },
             ].map((company, i) => (
-              <a href={company.link} target="_blank" rel="noopener noreferrer">
+              <a href={company.link} target="_blank" rel="noopener noreferrer" key={i}>
                 <img
                   key={i}
                   src={company.src}
-                  className="w-32 h-32 sm:w-32 sm:h-32 object-contain rounded-lg border border-border bg-card text-sm text-muted-foreground hover:border-neon-cyan/30 transition-colors"
+                  className={`w-32 h-32 sm:w-32 sm:h-32 object-contain rounded-lg border border-border ${company.bg} text-sm text-muted-foreground hover:border-neon-cyan/30 transition-colors`}
                 ></img>
               </a>
             ))}

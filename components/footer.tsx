@@ -1,4 +1,4 @@
-import { PixelStar } from "./pixel-decorations"
+import logo from "../app/icon.png"
 
 export function Footer() {
   return (
@@ -7,8 +7,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo area */}
           <div className="flex items-center gap-3">
-            <PixelStar className="h-6 w-6" />
-            <span className="font-pixel text-sm text-neon-pink">VIAHACK</span>
+            <img src={logo.src} className="h-20 w-20" />
           </div>
 
           {/* Social */}

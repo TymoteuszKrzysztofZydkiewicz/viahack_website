@@ -2,6 +2,7 @@
 
 import { PixelCloud, PixelCat, PixelStar } from "./pixel-decorations"
 import { Calendar, MapPin } from "lucide-react"
+import logo from "../app/icon.png"
 
 export function HeroSection() {
   return (
@@ -15,19 +16,21 @@ export function HeroSection() {
       <PixelStar className="absolute bottom-40 right-1/4 opacity-30 animate-pixel-blink" />
       <PixelCat className="absolute top-16 right-20 opacity-70 animate-float-slow scale-150 hidden md:block" />
 
-      <div className="relative z-10 flex flex-col items-center gap-8 text-center max-w-4xl mx-auto">
-        {/* Pixel-style "HACKATHON" label */}
-        <p className="font-pixel text-xs md:text-sm tracking-[0.3em] text-neon-cyan glow-cyan uppercase">
-          Hackathon
-        </p>
+      <div className="relative z-14 flex flex-col items-center gap-8 text-center max-w-4xl mx-auto">
 
-        {/* Main title */}
-        <h1 className="font-pixel text-4xl md:text-6xl lg:text-7xl text-neon-pink glow-pink leading-tight text-balance">
-          VIAHACK
-          <span className="block text-lg md:text-2xl lg:text-3xl mt-4 text-neon-cyan glow-cyan">
-            2026
-          </span>
-        </h1>
+        {/* Hackathon logo */}
+        <img
+          src={logo.src}
+          alt="VIAHACK logo"
+          className="
+            w-48 md:w-64 lg:w-80
+            h-auto
+            object-contain
+            mx-auto
+            drop-shadow-[0_0_30px_rgba(255,0,255,0.4)]
+            animate-float-slow
+          "
+        />
 
         {/* Subtitle */}
         <p className="text-lg md:text-xl text-foreground/80 max-w-xl leading-relaxed">
