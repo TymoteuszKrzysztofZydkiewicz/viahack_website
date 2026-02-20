@@ -2,7 +2,7 @@
 
 import { PixelCloud, PixelCat, PixelStar } from "./pixel-decorations"
 import { Calendar, MapPin } from "lucide-react"
-import logo from "../app/icon.png"
+import logo from "../public/icon.png"
 
 export function HeroSection() {
   return (
