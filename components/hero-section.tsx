@@ -49,15 +49,24 @@ export function HeroSection() {
           </span>
         </div>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 mt-4">
-          <a
-            href="mailto:hackathon@viauc.dk"
-            className="font-pixel text-xs px-8 py-4 border-2 border-neon-cyan text-neon-cyan rounded-lg glow-box-cyan hover:bg-neon-cyan/10 transition-all"
-          >
-            Work with us
-          </a>
-        </div>
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 mt-4 items-center justify-center">
+              <a
+                  href="mailto:hackathon@viauc.dk"
+                  className="font-pixel text-xs px-8 py-4 border-2 border-neon-cyan text-neon-cyan rounded-lg glow-box-cyan hover:bg-neon-cyan/10 transition-all"
+              >
+                  Work with us
+              </a>
+
+              <a
+                  href="https://forms.gle/dRtEENvmX6wuuwbT8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-pixel text-xs px-8 py-4 border-2 border-neon-cyan text-neon-cyan rounded-lg glow-box-cyan hover:bg-neon-cyan/10 transition-all"
+              >
+                  Sign up now!
+              </a>
+          </div>
       </div>
 
       {/* Bottom gradient fade */}
