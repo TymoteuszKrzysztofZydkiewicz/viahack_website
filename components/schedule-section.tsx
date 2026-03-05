@@ -2,17 +2,14 @@ import { Clock } from "lucide-react"
 
 export function ScheduleSection() {
   const day1 = [
-    { time: "12:00", event: "Registration & Check-in", type: "setup" },
-    { time: "12:30", event: "Opening Ceremony", type: "ceremony" },
-    { time: "13:00", event: "Hacking Begins!", type: "coding" },
+    { time: "15:00", event: "Opening Ceremony", type: "setup" },
+    { time: "16:00", event: "Coding Begins!", type: "coding" },
   ]
 
   const day2 = [
-    { time: "10:00", event: "Prejudging begins", type: "highlight" },
-    { time: "13:00", event: "Time's up!", type: "ceremony" },
-    { time: "13:30", event: "Project presentations", type: "ceremony" },
-    { time: "15:30", event: "Winner announcements", type: "highlight" },
-    { time: "16:00", event: "Closing ceremony", type: "ceremony" },
+    { time: "14:00", event: "Prejudging", type: "highlight" },
+    { time: "16:00", event: "Final pitch", type: "ceremony" },
+    { time: "17:00", event: "Winner announcements + Closing ceremony", type: "highlight" },
   ]
 
   const typeColors: Record<string, string> = {
