@@ -6,45 +6,80 @@
 
 @layer base {
   :root {
-    --background: 263 70% 14%;
-    --foreground: 0 0% 95%;
-    --card: 263 60% 18%;
-    --card-foreground: 0 0% 95%;
-    --popover: 263 60% 18%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 320 100% 60%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 185 100% 50%;
-    --secondary-foreground: 263 70% 14%;
-    --muted: 263 50% 22%;
-    --muted-foreground: 260 20% 70%;
-    --accent: 185 100% 50%;
-    --accent-foreground: 263 70% 14%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 263 40% 30%;
-    --input: 263 40% 25%;
-    --ring: 320 100% 60%;
-    --chart-1: 320 100% 60%;
-    --chart-2: 185 100% 50%;
-    --chart-3: 263 70% 50%;
-    --chart-4: 45 100% 60%;
-    --chart-5: 120 60% 50%;
-    --radius: 0.75rem;
-    --neon-pink: 320 100% 60%;
-    --neon-cyan: 185 100% 50%;
-    --deep-purple: 263 70% 14%;
-    --mid-purple: 263 60% 22%;
-    --glow-pink: 320 100% 70%;
-  }
-}
+    /* Main palette */
+    --background: 262 72% 32%;
+    --foreground: 0 0% 97%;
 
-@layer base {
+    /* Cards / content sections darker than page background */
+    --card: 255 45% 24%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 255 45% 24%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 334 100% 69%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 188 100% 70%;
+    --secondary-foreground: 263 70% 18%;
+
+    --muted: 262 48% 38%;
+    --muted-foreground: 248 35% 86%;
+
+    --accent: 18 100% 72%;
+    --accent-foreground: 263 70% 18%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 262 80% 62%;
+    --input: 254 40% 30%;
+    --ring: 334 100% 69%;
+
+    --chart-1: 334 100% 69%;
+    --chart-2: 188 100% 70%;
+    --chart-3: 18 100% 72%;
+    --chart-4: 263 74% 55%;
+    --chart-5: 50 100% 65%;
+
+    --radius: 0.75rem;
+
+    /* Custom theme vars */
+    --neon-pink: 334 100% 69%;
+    --neon-cyan: 188 100% 70%;
+    --deep-purple: 262 78% 23%;
+    --mid-purple: 263 73% 47%;
+    --glow-pink: 334 100% 78%;
+    --poster-peach: 18 100% 72%;
+    --poster-lavender: 262 72% 32%;
+    --poster-cloud: 196 100% 88%;
+
+    /* Darker panels */
+    --panel-purple: 257 68% 24%;
+    --panel-purple-dark: 255 63% 20%;
+    --inner-panel-left: 258 58% 24%;
+    --inner-panel-right: 253 60% 20%;
+  }
+
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
+    background: linear-gradient(
+            to bottom,
+            hsl(259 84% 52%) 0%,
+            hsl(260 78% 45%) 14%,
+            hsl(261 74% 37%) 30%,
+            hsl(262 76% 29%) 52%,
+            hsl(262 78% 23%) 100%
+    );
+    min-height: 100vh;
   }
 }
 
@@ -52,64 +87,182 @@
   .text-balance {
     text-wrap: balance;
   }
+
   .font-pixel {
     font-family: 'Press Start 2P', cursive;
   }
+
   .pixel-border {
     box-shadow:
-      4px 0 0 0 hsl(var(--border)),
-      -4px 0 0 0 hsl(var(--border)),
-      0 4px 0 0 hsl(var(--border)),
-      0 -4px 0 0 hsl(var(--border));
+            4px 0 0 0 hsl(var(--border)),
+            -4px 0 0 0 hsl(var(--border)),
+            0 4px 0 0 hsl(var(--border)),
+            0 -4px 0 0 hsl(var(--border));
   }
+
+  /* Main purple content panels - darker than page background */
+  .poster-panel {
+    background: linear-gradient(
+            to bottom,
+            hsl(var(--panel-purple) / 0.98),
+            hsl(var(--panel-purple-dark) / 0.98)
+    );
+    box-shadow:
+            0 0 0 2px hsl(var(--border) / 0.35),
+            0 0 18px hsl(334 100% 69% / 0.08),
+            0 0 28px hsl(248 100% 10% / 0.35),
+            inset 0 1px 0 hsl(0 0% 100% / 0.04);
+  }
+
+  /* Inner cards / agenda rows / FAQ rows / feature boxes */
+  .inner-panel {
+    background: linear-gradient(
+            to right,
+            hsl(var(--inner-panel-left) / 0.97),
+            hsl(var(--inner-panel-right) / 0.97)
+    );
+    border: 1px solid hsl(203 100% 68% / 0.4);
+    box-shadow:
+            inset 0 1px 0 hsl(0 0% 100% / 0.03),
+            0 0 10px hsl(250 100% 8% / 0.32);
+  }
+
   .glow-pink {
     text-shadow:
-      0 0 10px hsl(320 100% 60% / 0.6),
-      0 0 20px hsl(320 100% 60% / 0.4),
-      0 0 40px hsl(320 100% 60% / 0.2);
+            0 0 6px hsl(334 100% 69% / 0.50),
+            0 0 12px hsl(334 100% 69% / 0.28),
+            0 0 24px hsl(334 100% 69% / 0.14);
   }
+
   .glow-cyan {
     text-shadow:
-      0 0 10px hsl(185 100% 50% / 0.6),
-      0 0 20px hsl(185 100% 50% / 0.4),
-      0 0 40px hsl(185 100% 50% / 0.2);
+            0 0 6px hsl(188 100% 70% / 0.50),
+            0 0 12px hsl(188 100% 70% / 0.28),
+            0 0 24px hsl(188 100% 70% / 0.14);
   }
+
+  .glow-peach {
+    text-shadow:
+            0 0 6px hsl(18 100% 72% / 0.45),
+            0 0 12px hsl(18 100% 72% / 0.24),
+            0 0 22px hsl(18 100% 72% / 0.12);
+  }
+
   .glow-box-pink {
     box-shadow:
-      0 0 15px hsl(320 100% 60% / 0.3),
-      0 0 30px hsl(320 100% 60% / 0.15),
-      inset 0 0 15px hsl(320 100% 60% / 0.05);
+            0 0 0 2px hsl(var(--neon-pink)),
+            0 0 10px hsl(334 100% 69% / 0.24),
+            0 0 22px hsl(334 100% 69% / 0.12),
+            inset 0 0 8px hsl(334 100% 69% / 0.05);
   }
+
   .glow-box-cyan {
     box-shadow:
-      0 0 15px hsl(185 100% 50% / 0.3),
-      0 0 30px hsl(185 100% 50% / 0.15),
-      inset 0 0 15px hsl(185 100% 50% / 0.05);
+            0 0 0 2px hsl(var(--neon-cyan)),
+            0 0 10px hsl(188 100% 70% / 0.24),
+            0 0 22px hsl(188 100% 70% / 0.12),
+            inset 0 0 8px hsl(188 100% 70% / 0.05);
   }
-}
 
-html {
-  scroll-behavior: smooth;
+  .glow-box-peach {
+    box-shadow:
+            0 0 0 2px hsl(var(--poster-peach)),
+            0 0 10px hsl(18 100% 72% / 0.24),
+            0 0 22px hsl(18 100% 72% / 0.12),
+            inset 0 0 8px hsl(18 100% 72% / 0.05);
+  }
+
+  .poster-title {
+    color: hsl(0 0% 98%);
+    text-shadow:
+            0 2px 0 hsl(255 42% 43%),
+            0 0 10px hsl(0 0% 100% / 0.10);
+    letter-spacing: 0.04em;
+  }
+
+  .poster-subtitle {
+    color: hsl(var(--poster-peach));
+    text-shadow:
+            0 0 8px hsl(18 100% 72% / 0.14);
+  }
+
+  .poster-soft-text {
+    color: hsl(250 42% 92%);
+  }
+
+  .poster-button {
+    background: transparent;
+    border: 2px solid hsl(var(--neon-cyan));
+    color: hsl(var(--neon-cyan));
+    box-shadow:
+            0 0 0 2px hsl(var(--neon-cyan) / 0.14),
+            0 0 12px hsl(var(--neon-cyan) / 0.22),
+            inset 0 0 10px hsl(var(--neon-cyan) / 0.04);
+    transition: all 0.25s ease;
+  }
+
+  .poster-button:hover {
+    background: hsl(var(--neon-cyan) / 0.08);
+    box-shadow:
+            0 0 0 2px hsl(var(--neon-cyan) / 0.22),
+            0 0 16px hsl(var(--neon-cyan) / 0.32),
+            inset 0 0 12px hsl(var(--neon-cyan) / 0.08);
+  }
+
+  .poster-button-pink {
+    background: transparent;
+    border: 2px solid hsl(var(--primary));
+    color: hsl(var(--primary));
+    box-shadow:
+            0 0 0 2px hsl(var(--primary) / 0.14),
+            0 0 12px hsl(var(--primary) / 0.22),
+            inset 0 0 10px hsl(var(--primary) / 0.04);
+    transition: all 0.25s ease;
+  }
+
+  .poster-button-pink:hover {
+    background: hsl(var(--primary) / 0.08);
+    box-shadow:
+            0 0 0 2px hsl(var(--primary) / 0.22),
+            0 0 16px hsl(var(--primary) / 0.32),
+            inset 0 0 12px hsl(var(--primary) / 0.08);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-8px); }
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
 }
 
 @keyframes pixel-blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
 .animate-float {
