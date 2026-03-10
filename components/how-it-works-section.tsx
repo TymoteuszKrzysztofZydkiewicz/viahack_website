@@ -3,7 +3,7 @@ export function HowItWorksSection() {
     {
       number: "01",
       title: "Form Teams",
-      description: "Find your crew or join a team. 3-4 members per team.",
+      description: "Teams of 3-4. Our registration form can help you find teammates!",
       icon: (
         <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
           <rect x="12" y="0" width="8" height="8" fill="hsl(185 100% 50%)" />

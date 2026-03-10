@@ -2,8 +2,8 @@
 
 import { PixelCloud, PixelCat, PixelStar } from "./pixel-decorations"
 import { Calendar, MapPin } from "lucide-react"
-import logo from "../public/icon.png"
-import inseroLogo from "../public/inseroLogo.png"
+import logo from "../images/viahack_logo_full.png"
+import inseroLogo from "../images/inseroLogo.png"
 
 export function HeroSection() {
     return (
@@ -31,9 +31,9 @@ export function HeroSection() {
                 />
 
                 <div className="flex items-center gap-4 -mt-16 animate-float-slow">
-          <span className="font-pixel text-xs md:text-sm tracking-wider text-foreground/60 whitespace-nowrap">
-            POWERED BY
-          </span>
+                    <span className="font-pixel text-xs md:text-sm tracking-wider text-foreground/60 whitespace-nowrap">
+                        POWERED BY
+                    </span>
 
                     <img
                         src={inseroLogo.src}
@@ -54,15 +54,15 @@ export function HeroSection() {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 sm:gap-8 text-muted-foreground">
-          <span className="flex items-center gap-2 font-pixel text-[10px]">
-            <Calendar className="h-4 w-4 text-neon-cyan" />
-            20-21 March 2026
-          </span>
+                    <span className="flex items-center gap-2 font-pixel text-[10px]">
+                        <Calendar className="h-4 w-4 text-neon-cyan" />
+                        20-21 March 2026
+                    </span>
 
                     <span className="flex items-center gap-2 font-pixel text-[10px]">
-            <MapPin className="h-4 w-4 text-neon-pink" />
-            VIA University College, Horsens
-          </span>
+                        <MapPin className="h-4 w-4 text-neon-pink" />
+                        VIA University College, Horsens
+                    </span>
                 </div>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-4 items-center justify-center">
