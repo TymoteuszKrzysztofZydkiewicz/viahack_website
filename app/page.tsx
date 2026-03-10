@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar"
 import { HeroSection } from "@/components/hero-section"
+import { SponsorsSection } from "@/components/sponsors-section"
 import { AboutSection } from "@/components/about-section"
 import { HowItWorksSection } from "@/components/how-it-works-section"
 import { ScheduleSection } from "@/components/schedule-section"
@@ -12,9 +13,11 @@ import { Footer } from "@/components/footer"
 export default function Page() {
   return (
     <>
-      {/* <Navbar /> */}
+      <Navbar />
       <main>
         <HeroSection />
+        <div className="h-px bg-border/30" />
+        <SponsorsSection />
         <div className="h-px bg-border/30" />
         <AboutSection />
         <div className="h-px bg-border/30" />
