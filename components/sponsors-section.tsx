@@ -3,6 +3,7 @@
 import inseroLogo from "../images/inseroLogoRect.png"
 import kbsoftwareLogo from "../images/kbsoftware.png"
 import systematicLogo from "../images/systematicLogo.svg"
+import mainaiLogo from "../images/mainaiBlack.svg"
 
 export function SponsorsSection() {
     const platinum = [
@@ -10,7 +11,7 @@ export function SponsorsSection() {
     ]
 
     const gold = [
-        { src: "", link: "", bg: "card" },
+        { src: mainaiLogo.src, link: "https://mainai.dk", bg: "white" },
         { src: "", link: "", bg: "card" }
     ]
 
