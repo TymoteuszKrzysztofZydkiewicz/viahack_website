@@ -35,11 +35,18 @@ async function expectPhotoSource(image: Locator, year: string) {
   expect(url.searchParams.get("url") ?? decodeURIComponent(url.pathname)).toContain(`/images/${year}/`)
 }
 
+async function imagePath(image: Locator) {
+  const source = await image.getAttribute("src")
+  if (!source) throw new Error("The image is missing its source")
+  const url = new URL(source, "http://127.0.0.1:3100")
+  return decodeURIComponent(url.searchParams.get("url") ?? url.pathname)
+}
+
 test("home keeps the requested copy, single collaboration CTA and minimal footer", async ({ page }, testInfo) => {
   const errors: string[] = []
   page.on("pageerror", error => errors.push(error.message))
   await page.goto("/")
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("VIA Hackathon")
+  await expect(page.getByRole("heading", { level: 1 })).toHaveText("VIAHACK")
   await expect(page.getByText("Next edition February 2027", { exact: true })).toBeVisible()
   await expect(page.locator("#home")).toContainText("Horsens, Denmark")
   for (const title of ["3rd edition of VIAHack", "Meet tech people", "Build the solution"]) {
@@ -56,6 +63,8 @@ test("home keeps the requested copy, single collaboration CTA and minimal footer
   await expect(editions).toContainText("10 teams")
   await expect(editions).toContainText("20-21.03.2026")
   await expect(editions).toContainText("13 teams")
+  expect(await imagePath(editions.locator("img").filter({ hasNot: page.locator("[alt='']") }).first())).toContain("/images/2026/75D9CE8E-E16F-4DF0-B9E6-248CC1BDD8C0.JPG.jpg")
+  expect(await imagePath(editions.locator("img").nth(1))).toContain("/images/hackathon_2025_img2.jpg")
   expect(await page.locator("body").innerText()).not.toMatch(/\bVIAHACK\s*\./i)
   expect(await editions.innerText()).not.toMatch(/\b202[567]\./)
 
@@ -128,6 +137,9 @@ for (const edition of [
     await expect(carousel).toBeVisible()
     expect(await carousel.getByRole("button", { name: /^Open photo/ }).count()).toBeGreaterThan(1)
     await expectPhotoSource(carousel.locator("img").first(), edition.year)
+    const carouselSources = await Promise.all((await carousel.locator("img").all()).map(imagePath))
+    expect(new Set(carouselSources).size).toBeGreaterThan(1)
+    expect(carouselSources.every(source => !/\.(?:heic|heif)(?:$|[?#])/i.test(source) && /\.(?:jpg|jpeg|png|webp)(?:$|[?#])/i.test(source))).toBe(true)
     await expect(page.getByRole("link", { name: "Explore more", exact: true })).toHaveAttribute("href", `/gallery?year=${edition.year}`)
     await capturePage(page, testInfo, `edition-${edition.year}.png`)
   })

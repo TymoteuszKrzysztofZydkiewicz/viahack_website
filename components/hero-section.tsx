@@ -16,9 +16,9 @@ export function HeroSection() {
           <Image src="/icon.png" alt="" width={144} height={144} priority className="pixel-float-slow pixel-art absolute bottom-[8%] right-[9%] h-24 w-24 object-contain sm:bottom-[11%] sm:right-[12%] sm:h-36 sm:w-36" />
         </div>
         <Reveal className="relative z-10 text-center">
-          <h1 id="hero-title" className="hero-title">VIA <span className="text-primary">Hackathon</span></h1>
-          <p className="mt-7 text-lg font-medium tracking-tight text-white/85 sm:text-2xl">Next edition February 2027</p>
-          <p className="mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</p>
+          <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK</h1>
+          <p className="pixel-brand mt-7 text-lg text-white/85 sm:text-2xl">Next edition February 2027</p>
+          <p className="pixel-brand mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</p>
         </Reveal>
       </div>
     </section>

@@ -18,6 +18,21 @@ export function getGalleryPhotos(): GalleryPhoto[] {
   }))
 }
 
+const browserImagePattern = /\.(?:jpe?g|png|webp)$/i
+
+/** Selects evenly spaced browser images so previews show different parts of an archive. */
+export function selectGalleryPhotos(photos: GalleryPhoto[], count: number): GalleryPhoto[] {
+  const eligible = photos.filter((photo) => browserImagePattern.test(photo.src) && !/\.(?:heic|heif)(?:$|[?#])/i.test(photo.src))
+  if (count <= 0 || !eligible.length) return []
+  if (eligible.length <= count) return eligible
+  if (count === 1) return [eligible[0]]
+
+  return Array.from({ length: count }, (_, index) => {
+    const sourceIndex = Math.round(index * (eligible.length - 1) / (count - 1))
+    return eligible[sourceIndex]
+  })
+}
+
 /** A small selection from both years keeps the home carousel quick to load. */
 export function getGalleryPreviewPhotos(): GalleryPhoto[] {
   const photos = getGalleryPhotos()
@@ -25,8 +40,7 @@ export function getGalleryPreviewPhotos(): GalleryPhoto[] {
     const collection = photos.filter(photo => photo.year === year)
     const landscape = collection.filter(photo => (photo.width ?? 4) >= (photo.height ?? 3))
     const source = landscape.length >= 6 ? landscape : collection
-    const count = Math.min(6, source.length)
-    return Array.from({ length: count }, (_, index) => source[Math.floor(index * source.length / count)])
+    return selectGalleryPhotos(source, 6)
   })
   return Array.from({ length: 6 }, (_, index) => byYear.flatMap(collection => collection[index] ? [collection[index]] : [])).flat()
 }

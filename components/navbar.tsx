@@ -61,7 +61,7 @@ export function Navbar() {
       <div className="page-container flex h-20 items-center justify-between gap-5">
         <Link href="/" aria-label="VIAHACK home" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
           <Image src="/icon.png" width={42} height={42} alt="" priority className="pixel-art h-[42px] w-[42px] object-contain" />
-          <span className="wordmark text-white">VIA<span className="text-primary">HACK</span></span>
+          <span className="wordmark pixel-brand text-white">VIAHACK</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex xl:gap-7">

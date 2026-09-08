@@ -4,7 +4,6 @@ import { useEffect, useId, useMemo, useRef, useState } from "react"
 import Image from "next/image"
 import useEmblaCarousel from "embla-carousel-react"
 import AutoScroll from "embla-carousel-auto-scroll"
-import { useReducedMotion } from "framer-motion"
 import { ArrowLeft, ArrowRight, Expand, Pause, Play } from "lucide-react"
 import type { GalleryPhoto } from "@/lib/types"
 import { Lightbox } from "./lightbox"
@@ -17,10 +16,11 @@ export interface PhotoCarouselProps {
 
 /** One looping carousel for home and edition previews; photos always open in place. */
 export function PhotoCarousel({ photos, label = "Event photos", compact = false }: PhotoCarouselProps) {
-  const reducedMotion = useReducedMotion()
   const trackId = useId()
   const rootRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
+  const [mounted, setMounted] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(true)
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
   const [dragging, setDragging] = useState(false)
@@ -28,6 +28,7 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
   const [documentHidden, setDocumentHidden] = useState(false)
   const [selected, setSelected] = useState(0)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
+  const motionReduced = !mounted || prefersReducedMotion
   const autoScroll = useMemo(() => AutoScroll({
     speed: compact ? 0.55 : 0.7,
     startDelay: 500,
@@ -39,9 +40,18 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
   const [viewportRef, emblaApi] = useEmblaCarousel({
     align: "start",
     loop: true,
-    duration: reducedMotion ? 0 : 25,
+    duration: 25,
   }, [autoScroll])
-  const shouldPlay = !reducedMotion && !paused && !hovered && !focused && !dragging && visible && !documentHidden && lightboxIndex === null && photos.length > 1
+  const shouldPlay = !motionReduced && !paused && !hovered && !focused && !dragging && visible && !documentHidden && lightboxIndex === null && photos.length > 1
+
+  useEffect(() => {
+    setMounted(true)
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const updateMotionPreference = () => setPrefersReducedMotion(mediaQuery.matches)
+    updateMotionPreference()
+    mediaQuery.addEventListener("change", updateMotionPreference)
+    return () => mediaQuery.removeEventListener("change", updateMotionPreference)
+  }, [])
 
   useEffect(() => {
     const root = rootRef.current
@@ -89,6 +99,15 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
     emblaApi?.plugins().autoScroll?.stop()
     if (direction === "previous") emblaApi?.scrollPrev()
     else emblaApi?.scrollNext()
+  }
+
+  function togglePlayback() {
+    if (paused) {
+      setFocused(false)
+      setHovered(false)
+      emblaApi?.plugins().autoScroll?.play()
+    }
+    setPaused(value => !value)
   }
 
   if (!photos.length) return null
@@ -150,8 +169,8 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
       <div className="mt-5 flex items-center justify-between gap-4">
         <span className="font-mono text-xs text-muted-foreground" aria-live={shouldPlay ? "off" : "polite"} aria-atomic="true">{String(selected + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}</span>
         <div className="flex gap-2">
-          <button type="button" className="icon-button" aria-label={paused || reducedMotion ? "Play carousel" : "Pause carousel"} aria-controls={trackId} disabled={Boolean(reducedMotion) || photos.length < 2} onClick={() => setPaused(value => !value)}>
-            {paused || reducedMotion ? <Play size={17} aria-hidden="true" /> : <Pause size={17} aria-hidden="true" />}
+          <button type="button" className="icon-button" aria-label={paused || motionReduced ? "Play carousel" : "Pause carousel"} aria-controls={trackId} disabled={motionReduced || photos.length < 2} onClick={togglePlayback}>
+            {paused || motionReduced ? <Play size={17} aria-hidden="true" /> : <Pause size={17} aria-hidden="true" />}
           </button>
           <button type="button" className="icon-button" aria-label="Previous photo" aria-controls={trackId} disabled={!emblaApi || photos.length < 2} onClick={() => navigate("previous")}><ArrowLeft size={18} aria-hidden="true" /></button>
           <button type="button" className="icon-button" aria-label="Next photo" aria-controls={trackId} disabled={!emblaApi || photos.length < 2} onClick={() => navigate("next")}><ArrowRight size={18} aria-hidden="true" /></button>

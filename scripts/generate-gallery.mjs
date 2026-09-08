@@ -2,19 +2,17 @@
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import sharp from "sharp"
-import convertHeic from "heic-convert"
 
 // Original photos stay in images/<year>. Only optimized browser assets are public.
 const root = fileURLToPath(new URL("../", import.meta.url))
 const publicDirectory = path.join(root, "public")
 const assetDirectory = path.join(publicDirectory, "assets")
 const years = ["2026", "2025"]
-const heicExtensions = new Set([".heic", ".heif"])
-const supportedExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".avif", ".gif", ...heicExtensions])
+const supportedExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"])
 const collator = new Intl.Collator("en", { numeric: true, sensitivity: "base" })
 const cachePath = path.join(publicDirectory, "images", ".gallery-cache.json")
 // Bump this value whenever image processing settings change.
-const cacheVersion = 1
+const cacheVersion = 2
 
 async function listPhotos(directory) {
   let entries
@@ -43,28 +41,18 @@ async function readCache() {
 
 async function optimize(filename, outputPath) {
   const options = { width: 1920, height: 1920, fit: "inside", withoutEnlargement: true }
-  try {
-    return await sharp(filename).rotate().resize(options).jpeg({ quality: 84, mozjpeg: true }).toFile(outputPath)
-  } catch (error) {
-    if (!heicExtensions.has(path.extname(filename).toLowerCase())) throw error
-    // Distributed Sharp binaries do not decode HEVC on every platform.
-    // libheif's portable decoder handles those originals during generation only.
-    const input = await readFile(filename)
-    const converted = await convertHeic({ buffer: input, format: "JPEG", quality: 0.95 })
-    return await sharp(Buffer.from(converted)).rotate().resize(options).jpeg({ quality: 84, mozjpeg: true }).toFile(outputPath)
-  }
+  return await sharp(filename).rotate().resize(options).jpeg({ quality: 84, mozjpeg: true }).toFile(outputPath)
 }
 
 const previousCache = await readCache()
 const nextCache = {}
 const photos = []
 let generated = 0
-let heicCount = 0
 for (const year of years) {
   const sourceDirectory = path.join(root, "images", year)
   const filenames = await listPhotos(sourceDirectory)
   for (const filename of filenames) {
-    // Retain the source extension so IMG_1.jpg and IMG_1.heic cannot collide.
+    // Retain the source extension so differently named originals cannot collide.
     const relativePath = `${path.relative(sourceDirectory, filename)}.jpg`
     const outputPath = path.join(publicDirectory, "images", year, relativePath)
     const src = "/" + path.relative(publicDirectory, outputPath).split(path.sep).map(encodeURIComponent).join("/")
@@ -90,7 +78,6 @@ for (const year of years) {
     const photo = { src, year, width: dimensions.width, height: dimensions.height }
     nextCache[src] = { signature, width: photo.width, height: photo.height }
     photos.push(photo)
-    if (heicExtensions.has(path.extname(filename).toLowerCase())) heicCount++
   }
   console.log(`Gallery ${year}: ${filenames.length} photos prepared.`)
 }
@@ -99,4 +86,4 @@ await mkdir(assetDirectory, { recursive: true })
 await mkdir(path.dirname(cachePath), { recursive: true })
 await writeFile(path.join(assetDirectory, "gallery-manifest.json"), `${JSON.stringify(photos, null, 2)}\n`)
 await writeFile(cachePath, `${JSON.stringify(nextCache, null, 2)}\n`)
-console.log(`Gallery manifest: ${photos.length} photos, including ${heicCount} HEIC/HEIF originals (${generated} generated, ${photos.length - generated} cached).`)
+console.log(`Gallery manifest: ${photos.length} photos (${generated} generated, ${photos.length - generated} cached).`)

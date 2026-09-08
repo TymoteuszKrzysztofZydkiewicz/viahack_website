@@ -45,13 +45,13 @@ The shared layout owns the sticky navigation, skip link, main landmark, and foot
 
 ## Adding photos
 
-1. Place original images in `images/2026/` or `images/2025/`. Nested folders and JPEG, HEIC, HEIF, PNG, WebP, AVIF, and GIF files are supported. There is no fixed photo limit. Keep these original folders in the deployment's source checkout.
+1. Place original images in `images/2026/` or `images/2025/`. Nested folders and JPEG, PNG, and WebP files are supported. HEIC, HEIF, AVIF, and GIF files are ignored. There is no fixed photo limit. Keep these original folders in the deployment's source checkout.
 2. Run `npm run gallery:generate`, or restart `npm run dev`. The same scan runs automatically before every production build.
 3. Optionally add a `galleryPhotos` entry in `lib/hackathon.ts` with the public `src`, `year`, descriptive `alt`, and `caption`. This is editorial metadata; a photo must also exist on disk to appear.
 
-`scripts/generate-gallery.mjs` preserves the originals and generates browser-ready JPEGs under `public/images/<year>/`, at most 1920 pixels along either dimension. It auto-orients and compresses the images and strips embedded metadata. HEIC/HEIF files use a portable `heic-convert` fallback when Sharp cannot decode them; a failed conversion stops generation with the source filename rather than omitting the photo. A local cache avoids reconverting unchanged originals on every startup. Generated images and the cache are ignored by Git and regenerated during the build.
+`scripts/generate-gallery.mjs` preserves the originals and generates browser-ready JPEGs under `public/images/<year>/`, at most 1920 pixels along either dimension. It auto-orients and compresses the supported images and strips embedded metadata. Unsupported formats are ignored. A local cache avoids reconverting unchanged originals on every startup. Generated images and the cache are ignored by Git and regenerated during the build.
 
-The script records public URLs and dimensions in `public/assets/gallery-manifest.json`. Output filenames retain the original extension before `.jpg` to prevent name collisions, for example `/images/2025/IMG_1447.HEIC.jpg`. `getGalleryPhotos()` merges that manifest with optional captions, with simple year-based captions when no editorial metadata is provided. The deployed site needs no filesystem scan. Rebuild and redeploy after adding photos to a production site.
+The script records public URLs and dimensions in `public/assets/gallery-manifest.json`. Output filenames retain the original extension before `.jpg` to prevent name collisions, for example `/images/2025/IMG_1447.JPG.jpg`. `getGalleryPhotos()` merges that manifest with optional captions, with simple year-based captions when no editorial metadata is provided. The deployed site needs no filesystem scan. Rebuild and redeploy after adding photos to a production site.
 
 The gallery renders 24 photos at a time with native lazy loading. Year filters are shareable (`/gallery?year=2026`). The lightbox can browse the entire selected year, even before more thumbnails are loaded. It supports previous/next buttons, wrapping arrow-key navigation, Escape, and horizontal touch swipes. Radix manages focus trapping, screen-reader isolation, and body scroll locking; closing returns focus to the originating photo. Animations respect reduced motion.
 
@@ -59,7 +59,7 @@ Home and edition previews share `PhotoCarousel({ photos, label?, compact? })`. H
 
 ## Archive content
 
-The original photo folders currently contain 37 photos from 2025 and 90 from 2026, including 26 HEIC files. Empty collections display a minimal empty state. Add descriptive editorial captions as needed.
+The original photo folders contain browser-supported photos from 2025 and 2026. Empty collections display a minimal empty state. Add descriptive editorial captions as needed.
 
 Each edition highlights one winning project: ViaLive for 2026 and AI Recipe App for 2025. The next event is planned for February 2027.
 

@@ -6,6 +6,11 @@ import { getGalleryPhotos } from "@/lib/gallery"
 import { PixelStar } from "./pixel-decorations"
 import { Reveal } from "./reveal"
 
+const teaserSources = {
+  "2026": "/images/2026/75D9CE8E-E16F-4DF0-B9E6-248CC1BDD8C0.JPG.jpg",
+  "2025": "/images/hackathon_2025_img2.jpg",
+} as const
+
 export function PreviousEditionSection() {
   const photos = getGalleryPhotos()
   return (
@@ -19,7 +24,7 @@ export function PreviousEditionSection() {
             <Reveal key={edition.year} delay={index * 0.1}>
               <Link href={`/${edition.year}`} className="edition-card group block overflow-hidden transition-colors hover:border-white/25" aria-label={`Explore VIA Hackathon ${edition.year}`}>
                 <div className="relative aspect-[2/1] overflow-hidden bg-white/5">
-                  {preview ? <Image src={preview.src} alt={preview.alt} fill sizes="(max-width: 767px) 90vw, 560px" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" style={{ objectPosition: preview.position }} /> : <div className="flex h-full items-center justify-center"><Image src="/icon.png" width={100} height={100} alt="" className="pixel-art opacity-60" /></div>}
+                  <Image src={teaserSources[edition.year]} alt={preview?.alt ?? `VIAHACK ${edition.year} event photo`} fill sizes="(max-width: 767px) 90vw, 560px" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" style={{ objectPosition: preview?.position }} />
                 </div>
                 <div className="flex items-center justify-between gap-4 px-5 py-6 sm:px-7 sm:py-7">
                   <div>

@@ -1,7 +1,7 @@
 ﻿import Link from "next/link"
 import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Github, MapPin, Trophy } from "lucide-react"
 import type { Edition, SponsorTier, WinningProject } from "@/lib/types"
-import { getGalleryPhotos } from "@/lib/gallery"
+import { getGalleryPhotos, selectGalleryPhotos } from "@/lib/gallery"
 import { PhotoCarousel } from "@/components/photo-carousel"
 import { Reveal } from "@/components/reveal"
 import { SponsorCard } from "@/components/sponsor-card"
@@ -87,8 +87,8 @@ export function EditionPage({ edition }: { edition: Edition }) {
           </nav>
           <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
             <Reveal>
-              <h1 className="text-[clamp(2.5rem,5.5vw,5rem)] font-semibold leading-[1.06] tracking-[-0.055em]">
-                VIA Hackathon
+              <h1 className="edition-title pixel-brand">
+                VIAHACK
                 <span className="mt-2 block text-pink-300">{edition.year}</span>
               </h1>
               <div className="mt-7 flex flex-col gap-3 text-sm text-white/65 sm:flex-row sm:flex-wrap sm:gap-x-6">
@@ -161,7 +161,7 @@ export function EditionPage({ edition }: { edition: Edition }) {
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Gallery {edition.year}</h2>
           <Link href={`/gallery?year=${edition.year}`} className="button button-outline">Explore more <ArrowRight size={16} aria-hidden="true" /></Link>
         </Reveal>
-        <PhotoCarousel photos={photos.slice(0, 8)} label={`VIAHACK ${edition.year} gallery`} compact />
+        <PhotoCarousel photos={selectGalleryPhotos(photos, 8)} label={`VIAHACK ${edition.year} gallery`} compact />
         <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-t border-white/10 pt-7 text-xs text-white/60">
           <Link href="/" className="inline-flex items-center gap-2 transition-colors hover:text-white"><ArrowLeft size={14} aria-hidden="true" />Back to home</Link>
           <Link href={`/${otherYear}`} className="inline-flex items-center gap-2 transition-colors hover:text-cyan-200">Explore {otherYear}<ArrowRight size={14} aria-hidden="true" /></Link>
