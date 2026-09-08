@@ -8,3 +8,9 @@ node_modules/
 .next/
 .env*.local
 .DS_Store
+*.tsbuildinfo
+test-results/
+playwright-report/
+
+# Generated, optimized copies of images/<year>; regenerated before dev/build.
+public/images/

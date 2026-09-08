@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  }
+  // Keep production builds strict: TypeScript errors must fail the build.
 }
 
 export default nextConfig

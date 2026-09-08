@@ -1,139 +1,40 @@
-"use client"
-
-import { useState } from "react"
-import { Users, FolderGit2, GraduationCap } from "lucide-react"
-
-import hackathonImg1 from "../images/hackathon_2025_img1.jpg"
-import hackathonImg2 from "../images/hackathon_2025_img2.jpg"
-import hackathonImg3 from "../images/hackathon_2025_img3.jpg"
-import hackathonImg4 from "../images/hackathon_2025_img4.jpg"
-
-import redbull from "../images/redbull.png"
-import coflow from "../images/coflow.png"
-import ida from "../images/ida.png"
-import kbsoftware from "../images/kbsoftware.png"
-import sharkgaming from "../images/sharkgaming.svg"
-import campuscafe from "../images/campuscafe.png"
+import Image from "next/image"
+import Link from "next/link"
+import { ArrowUpRight } from "lucide-react"
+import { editions } from "@/lib/hackathon"
+import { getGalleryPhotos } from "@/lib/gallery"
+import { PixelStar } from "./pixel-decorations"
+import { Reveal } from "./reveal"
 
 export function PreviousEditionSection() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
-
-  const stats = [
-    {
-      icon: Users,
-      value: "50+",
-      label: "Participants",
-      color: "text-neon-pink",
-      glow: "glow-box-pink",
-    },
-    {
-      icon: FolderGit2,
-      value: "10",
-      label: "Projects Created",
-      color: "text-neon-cyan",
-      glow: "glow-box-cyan",
-    },
-    {
-      icon: GraduationCap,
-      value: "3",
-      label: "Jury",
-      color: "text-neon-pink",
-      glow: "glow-box-pink",
-    },
-  ]
-
-  const galleryImages = [
-    hackathonImg1.src,
-    hackathonImg2.src,
-    hackathonImg3.src,
-    hackathonImg4.src,
-  ]
-
+  const photos = getGalleryPhotos()
   return (
-      <section id="previous" className="relative px-4 py-24">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="font-pixel text-2xl md:text-3xl text-center text-neon-cyan glow-cyan mb-4">
-            Previous Edition
-          </h2>
-          <p className="text-center text-muted-foreground mb-16 max-w-lg mx-auto leading-relaxed">
-            A look back at what happened at VIAHACK. The energy, the projects, and
-            the community that made it unforgettable.
-          </p>
-
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-16">
-            {stats.map((stat) => (
-                <div
-                    key={stat.label}
-                    className={`flex flex-col items-center gap-3 rounded-xl border border-border bg-card p-8 ${stat.glow}`}
-                >
-                  <stat.icon className={`h-8 w-8 ${stat.color}`} />
-                  <span className={`font-pixel text-2xl ${stat.color}`}>
-                {stat.value}
-              </span>
-                  <span className="text-sm text-muted-foreground">{stat.label}</span>
+    <section id="previous" className="page-container relative pb-20 sm:pb-28" aria-labelledby="editions-title">
+      <div className="pointer-events-none absolute right-12 top-0 opacity-40" aria-hidden="true"><PixelStar className="pixel-float h-5 w-5" /></div>
+      <Reveal className="section-heading"><h2 id="editions-title">Past editions</h2></Reveal>
+      <div className="grid gap-6 md:grid-cols-2">
+        {editions.map((edition, index) => {
+          const preview = photos.find(photo => photo.year === edition.year)
+          return (
+            <Reveal key={edition.year} delay={index * 0.1}>
+              <Link href={`/${edition.year}`} className="edition-card group block overflow-hidden transition-colors hover:border-white/25" aria-label={`Explore VIA Hackathon ${edition.year}`}>
+                <div className="relative aspect-[2/1] overflow-hidden bg-white/5">
+                  {preview ? <Image src={preview.src} alt={preview.alt} fill sizes="(max-width: 767px) 90vw, 560px" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" style={{ objectPosition: preview.position }} /> : <div className="flex h-full items-center justify-center"><Image src="/icon.png" width={100} height={100} alt="" className="pixel-art opacity-60" /></div>}
                 </div>
-            ))}
-          </div>
-
-          {/* Gallery frames */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16">
-            {galleryImages.map((src, i) => (
-                <img
-                    src={src}
-                    key={i}
-                    onClick={() => setSelectedImage(src)}
-                    className="cursor-pointer object-cover aspect-square rounded-lg border-2 border-border bg-mid-purple overflow-hidden hover:scale-105 transition-transform duration-300"
-                    style={{
-                      boxShadow: `inset 0 0 20px hsl(263 60% 10%), 0 0 10px hsl(${
-                          i % 2 === 0 ? "320 100% 60%" : "185 100% 50%"
-                      } / 0.15)`,
-                    }}
-                    alt={`Hackathon photo ${i + 1}`}
-                />
-            ))}
-          </div>
-
-          {/* Previous sponsors */}
-          <div className="text-center">
-            <p className="font-pixel text-[10px] text-muted-foreground mb-6 tracking-wider uppercase">
-              Previous Sponsors
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-8">
-              {[
-                { src: coflow.src, link: "https://www.coflowvisuals.com/", bg: "bg-card" },
-                { src: kbsoftware.src, link: "https://kbsoftware.dk/", bg: "bg-white" },
-                { src: redbull.src, link: "https://www.redbull.com/", bg: "bg-card" },
-                { src: ida.src, link: "https://studerende.ida.dk/", bg: "bg-card" },
-                { src: campuscafe.src, link: "https://www.instagram.com/campus.cafe/", bg: "bg-card" },
-                { src: sharkgaming.src, link: "https://sharkgaming.dk/", bg: "bg-card" },
-              ].map((company, i) => (
-                  <a href={company.link} target="_blank" rel="noopener noreferrer" key={i}>
-                    <img
-                        src={company.src}
-                        className={`w-32 h-32 sm:w-32 sm:h-32 object-contain rounded-lg border border-border ${company.bg} text-sm text-muted-foreground hover:border-neon-cyan/30 transition-colors`}
-                        alt={`Sponsor ${i + 1}`}
-                    />
-                  </a>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Image Modal */}
-        {selectedImage && (
-            <div
-                className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm px-4"
-                onClick={() => setSelectedImage(null)}
-            >
-              <img
-                  src={selectedImage}
-                  onClick={(e) => e.stopPropagation()}
-                  className="max-h-[90vh] max-w-[90vw] rounded-xl border-2 border-border shadow-2xl animate-in fade-in zoom-in duration-300"
-                  alt="Selected hackathon photo"
-              />
-            </div>
-        )}
-      </section>
+                <div className="flex items-center justify-between gap-4 px-5 py-6 sm:px-7 sm:py-7">
+                  <div>
+                    <h3 className="text-3xl font-semibold tracking-tight sm:text-4xl">{edition.year}</h3>
+                    <ul className="mt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs text-muted-foreground sm:text-sm">
+                      {edition.details.map((detail, detailIndex) => <li key={detail} className="flex items-center gap-3">{detailIndex > 0 && <span className="text-white/25" aria-hidden="true">|</span>}{detail}</li>)}
+                    </ul>
+                  </div>
+                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-white/15 text-secondary transition-colors group-hover:border-secondary group-hover:bg-secondary/5"><ArrowUpRight size={20} aria-hidden="true" /></span>
+                </div>
+              </Link>
+            </Reveal>
+          )
+        })}
+      </div>
+    </section>
   )
 }

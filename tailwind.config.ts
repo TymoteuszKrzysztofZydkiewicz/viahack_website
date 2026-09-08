@@ -57,7 +57,7 @@ const config: Config = {
         'mid-purple': 'hsl(var(--mid-purple))',
       },
       fontFamily: {
-        sans: ['Arial', 'Helvetica', 'ui-sans-serif', 'system-ui'],
+        sans: ['var(--font-inter)', 'Arial', 'Helvetica', 'ui-sans-serif', 'system-ui'],
         mono: ['var(--font-geist-mono)', 'monospace'],
         pixel: ['"Press Start 2P"', 'cursive'],
       },
