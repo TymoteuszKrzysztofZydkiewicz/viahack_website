@@ -33,14 +33,14 @@ export function selectGalleryPhotos(photos: GalleryPhoto[], count: number): Gall
   })
 }
 
-/** A small selection from both years keeps the home carousel quick to load. */
+/** A broad, evenly distributed selection from both years keeps the home carousel varied. */
 export function getGalleryPreviewPhotos(): GalleryPhoto[] {
   const photos = getGalleryPhotos()
   const byYear = ["2026", "2025"].map(year => {
     const collection = photos.filter(photo => photo.year === year)
     const landscape = collection.filter(photo => (photo.width ?? 4) >= (photo.height ?? 3))
-    const source = landscape.length >= 6 ? landscape : collection
-    return selectGalleryPhotos(source, 6)
+    const source = landscape.length >= 15 ? landscape : collection
+    return selectGalleryPhotos(source, 15)
   })
-  return Array.from({ length: 6 }, (_, index) => byYear.flatMap(collection => collection[index] ? [collection[index]] : [])).flat()
+  return Array.from({ length: 15 }, (_, index) => byYear.flatMap(collection => collection[index] ? [collection[index]] : [])).flat()
 }

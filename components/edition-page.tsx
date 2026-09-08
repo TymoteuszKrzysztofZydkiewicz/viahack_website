@@ -1,5 +1,7 @@
 ﻿import Link from "next/link"
 import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Github, MapPin, Trophy } from "lucide-react"
+import edition2025Hero from "@/images/hackathon_2025_img2.jpg"
+import edition2026Hero from "@/images/2026/2026-fallback.jpg"
 import type { Edition, SponsorTier, WinningProject } from "@/lib/types"
 import { getGalleryPhotos, selectGalleryPhotos } from "@/lib/gallery"
 import { PhotoCarousel } from "@/components/photo-carousel"
@@ -7,6 +9,7 @@ import { Reveal } from "@/components/reveal"
 import { SponsorCard } from "@/components/sponsor-card"
 
 const sponsorTiers: SponsorTier[] = ["Platinum", "Gold", "Silver", "Partner"]
+const editionHeroImages = { "2025": edition2025Hero, "2026": edition2026Hero } as const
 const sponsorWidths: Record<SponsorTier, string> = {
   Platinum: "w-full max-w-xl",
   Gold: "w-full max-w-sm",
@@ -74,6 +77,7 @@ function WinningProjectHighlight({ project }: { project: WinningProject }) {
 export function EditionPage({ edition }: { edition: Edition }) {
   const photos = getGalleryPhotos().filter((photo) => photo.year === edition.year)
   const heroPhoto = photos[0]
+  const heroImage = editionHeroImages[edition.year]
   const otherYear = edition.year === "2026" ? "2025" : "2026"
 
   return (
@@ -99,12 +103,12 @@ export function EditionPage({ edition }: { edition: Edition }) {
             {heroPhoto && (
               <Reveal delay={0.1}>
                 <img
-                  src={heroPhoto.src}
-                  alt={heroPhoto.alt}
-                  width={heroPhoto.width}
-                  height={heroPhoto.height}
+                  src={heroImage.src}
+                  alt={`VIAHACK ${edition.year} event photo`}
+                  width={heroImage.width}
+                  height={heroImage.height}
                   className="aspect-[4/3] w-full rounded-2xl object-cover"
-                  style={{ objectPosition: heroPhoto.position }}
+                  style={{ objectPosition: heroPhoto?.position }}
                   fetchPriority="high"
                 />
               </Reveal>
@@ -161,7 +165,7 @@ export function EditionPage({ edition }: { edition: Edition }) {
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Gallery {edition.year}</h2>
           <Link href={`/gallery?year=${edition.year}`} className="button button-outline">Explore more <ArrowRight size={16} aria-hidden="true" /></Link>
         </Reveal>
-        <PhotoCarousel photos={selectGalleryPhotos(photos, 8)} label={`VIAHACK ${edition.year} gallery`} compact />
+        <PhotoCarousel photos={selectGalleryPhotos(photos, edition.year === "2026" ? 25 : 10)} label={`VIAHACK ${edition.year} gallery`} compact />
         <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-t border-white/10 pt-7 text-xs text-white/60">
           <Link href="/" className="inline-flex items-center gap-2 transition-colors hover:text-white"><ArrowLeft size={14} aria-hidden="true" />Back to home</Link>
           <Link href={`/${otherYear}`} className="inline-flex items-center gap-2 transition-colors hover:text-cyan-200">Explore {otherYear}<ArrowRight size={14} aria-hidden="true" /></Link>

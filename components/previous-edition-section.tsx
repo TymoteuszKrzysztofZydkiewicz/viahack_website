@@ -1,15 +1,14 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
+import teaser2025 from "@/images/hackathon_2025_img2.jpg"
+import teaser2026 from "@/images/2026/2026-fallback.jpg"
 import { editions } from "@/lib/hackathon"
 import { getGalleryPhotos } from "@/lib/gallery"
 import { PixelStar } from "./pixel-decorations"
 import { Reveal } from "./reveal"
 
-const teaserSources = {
-  "2026": "/images/2026/75D9CE8E-E16F-4DF0-B9E6-248CC1BDD8C0.JPG.jpg",
-  "2025": "/images/hackathon_2025_img2.jpg",
-} as const
+const teaserSources = { "2026": teaser2026, "2025": teaser2025 } as const
 
 export function PreviousEditionSection() {
   const photos = getGalleryPhotos()

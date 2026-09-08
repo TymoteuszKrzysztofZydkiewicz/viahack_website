@@ -63,8 +63,8 @@ test("home keeps the requested copy, single collaboration CTA and minimal footer
   await expect(editions).toContainText("10 teams")
   await expect(editions).toContainText("20-21.03.2026")
   await expect(editions).toContainText("13 teams")
-  expect(await imagePath(editions.locator("img").filter({ hasNot: page.locator("[alt='']") }).first())).toContain("/images/2026/75D9CE8E-E16F-4DF0-B9E6-248CC1BDD8C0.JPG.jpg")
-  expect(await imagePath(editions.locator("img").nth(1))).toContain("/images/hackathon_2025_img2.jpg")
+  expect(await imagePath(editions.locator("img").filter({ hasNot: page.locator("[alt='']") }).first())).toContain("2026-fallback")
+  expect(await imagePath(editions.locator("img").nth(1))).toContain("hackathon_2025_img2")
   expect(await page.locator("body").innerText()).not.toMatch(/\bVIAHACK\s*\./i)
   expect(await editions.innerText()).not.toMatch(/\b202[567]\./)
 
@@ -135,7 +135,7 @@ for (const edition of [
 
     const carousel = page.getByRole("region", { name: `VIAHACK ${edition.year} gallery`, exact: true })
     await expect(carousel).toBeVisible()
-    expect(await carousel.getByRole("button", { name: /^Open photo/ }).count()).toBeGreaterThan(1)
+    expect(await carousel.getByRole("button", { name: /^Open photo/ }).count()).toBe(edition.year === "2026" ? 25 : 10)
     await expectPhotoSource(carousel.locator("img").first(), edition.year)
     const carouselSources = await Promise.all((await carousel.locator("img").all()).map(imagePath))
     expect(new Set(carouselSources).size).toBeGreaterThan(1)
@@ -219,7 +219,7 @@ test("home carousel opens a full-screen lightbox without navigating and respects
   await expect(carousel.getByRole("button", { name: "Play carousel" })).toBeDisabled()
   const photos = carousel.getByRole("button", { name: /^Open photo/ })
   const count = await photos.count()
-  expect(count).toBeGreaterThan(1)
+  expect(count).toBe(30)
   const viewport = carousel.locator('[aria-label="Photo slides"]')
   await viewport.focus()
   await page.keyboard.press("ArrowLeft")

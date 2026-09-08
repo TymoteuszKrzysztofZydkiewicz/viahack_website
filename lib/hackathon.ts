@@ -35,7 +35,7 @@ export const editions: Edition[] = [
     ],
     winningProject: {
       title: "ViaLive",
-      description: "A hackathon project from VIA Hack 2026 and the 1st place winner. ViaLive is a livestreaming platform with AI-assisted explanations, quizzes, and rapid feedback tools. Built with Docker Compose, SQLite, FastAPI, React, and more.",
+      description: "ViaLive is an interactive livestreaming platform designed to make online learning more engaging. It combines live sessions with AI-assisted explanations, quizzes, questions, and rapid feedback, helping participants follow difficult topics, check their understanding, and stay involved instead of passively watching a stream. The project turns a traditional broadcast into a shared learning experience where presenters can guide the session and participants can respond, test their knowledge, and receive useful support as the lesson unfolds.",
       githubUrl: "https://github.com/Bananapolis/Hackaton",
       image: { src: viaLiveImage.src, alt: "ViaLive host dashboard with livestream controls, a class session panel, and student feedback tools", width: viaLiveImage.width, height: viaLiveImage.height },
     },
@@ -59,7 +59,7 @@ export const editions: Edition[] = [
     ],
     winningProject: {
       title: "AI Recipe App",
-      description: "As part of a 24-hour hackathon, our team built a mobile app that helps people discover recipes based on the ingredients they already have at home. The challenge was intense, with only one day to go from idea to working prototype, we had to make quick technical decisions, divide tasks efficiently, and collaborate closely to get everything done.",
+      description: "AI Recipe App is a mobile app that helps people discover recipes from the ingredients they already have at home. It identifies those ingredients and suggests practical meals, making everyday cooking easier while helping reduce food waste.",
       features: [
         { title: "AI-powered ingredient detection", description: "Users could take a photo of ingredients, and the backend identified them using an image recognition service." },
         { title: "Recipe recommendations", description: "We pulled data from a third-party recipe API and ranked suggestions." },
