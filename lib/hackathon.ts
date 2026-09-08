@@ -11,6 +11,8 @@ import kasia from "@/images/kasia.jpg"
 import jakub from "@/images/jakub.jpg"
 import tymek from "@/images/tymek.jpg"
 import viaLiveImage from "@/images/winning project 2026/vialive_1.webp"
+import viaLiveImage2 from "@/images/winning project 2026/vialive_2.webp"
+import viaLiveImage3 from "@/images/winning project 2026/vialive_3.webp"
 import type { Edition, GalleryPhoto, TeamMember } from "@/lib/types"
 
 export type { GalleryPhoto } from "@/lib/types"
@@ -37,7 +39,14 @@ export const editions: Edition[] = [
       title: "ViaLive",
       description: "ViaLive is an interactive livestreaming platform designed to make online learning more engaging. It combines live sessions with AI-assisted explanations, quizzes, questions, and rapid feedback, helping participants follow difficult topics, check their understanding, and stay involved instead of passively watching a stream. The project turns a traditional broadcast into a shared learning experience where presenters can guide the session and participants can respond, test their knowledge, and receive useful support as the lesson unfolds.",
       githubUrl: "https://github.com/Bananapolis/Hackaton",
-      image: { src: viaLiveImage.src, alt: "ViaLive host dashboard with livestream controls, a class session panel, and student feedback tools", width: viaLiveImage.width, height: viaLiveImage.height },
+      photos: [viaLiveImage, viaLiveImage2, viaLiveImage3].map((image, index) => ({
+        src: image.src,
+        alt: `ViaLive application screenshot ${index + 1}`,
+        caption: `ViaLive — winning project 2026`,
+        year: "2026",
+        width: image.width,
+        height: image.height,
+      })),
     },
     partners: [
       { name: "Insero", logo: insero.src, href: "https://insero.dk", tier: "Platinum", theme: "light" },

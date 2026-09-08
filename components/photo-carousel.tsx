@@ -12,10 +12,11 @@ export interface PhotoCarouselProps {
   photos: GalleryPhoto[]
   label?: string
   compact?: boolean
+  project?: boolean
 }
 
 /** One looping carousel for home and edition previews; photos always open in place. */
-export function PhotoCarousel({ photos, label = "Event photos", compact = false }: PhotoCarouselProps) {
+export function PhotoCarousel({ photos, label = "Event photos", compact = false, project = false }: PhotoCarouselProps) {
   const trackId = useId()
   const rootRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
@@ -42,7 +43,7 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
     loop: true,
     duration: 25,
   }, [autoScroll])
-  const shouldPlay = !motionReduced && !paused && !hovered && !focused && !dragging && visible && !documentHidden && lightboxIndex === null && photos.length > 1
+  const shouldPlay = !project && !motionReduced && !paused && !hovered && !focused && !dragging && visible && !documentHidden && lightboxIndex === null && photos.length > 1
 
   useEffect(() => {
     setMounted(true)
@@ -141,11 +142,11 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
               role="group"
               aria-roledescription="slide"
               aria-label={`${index + 1} of ${photos.length}`}
-              className={compact ? "min-w-0 flex-[0_0_80%] pl-4 sm:flex-[0_0_48%] lg:flex-[0_0_35%]" : "min-w-0 flex-[0_0_86%] pl-4 sm:flex-[0_0_48%] lg:flex-[0_0_35%]"}
+              className={project ? "min-w-0 flex-[0_0_100%] pl-4" : compact ? "min-w-0 flex-[0_0_80%] pl-4 sm:flex-[0_0_48%] lg:flex-[0_0_35%]" : "min-w-0 flex-[0_0_86%] pl-4 sm:flex-[0_0_48%] lg:flex-[0_0_35%]"}
             >
               <button
                 type="button"
-                className="group relative block aspect-[4/3] w-full overflow-hidden rounded-xl bg-card focus-visible:outline-offset-[-4px]"
+                className={`group relative block w-full overflow-hidden rounded-xl bg-card focus-visible:outline-offset-[-4px] ${project ? "aspect-video cursor-zoom-in border border-white/10" : "aspect-[4/3]"}`}
                 aria-label={`Open photo ${index + 1}: ${photo.alt}`}
                 aria-haspopup="dialog"
                 onClick={event => { event.currentTarget.focus({ preventScroll: true }); setLightboxIndex(index) }}
@@ -154,12 +155,12 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
                   src={photo.src}
                   alt={photo.alt}
                   fill
-                  sizes="(max-width: 640px) 86vw, (max-width: 1024px) 48vw, 440px"
-                  className="object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"
+                  sizes={project ? "(max-width: 1024px) 90vw, 550px" : "(max-width: 640px) 86vw, (max-width: 1024px) 48vw, 440px"}
+                  className={project ? "object-contain" : "object-cover transition-transform duration-500 motion-safe:group-hover:scale-[1.03]"}
                   style={{ objectPosition: photo.position ?? "center" }}
                   draggable={false}
                 />
-                <span className="absolute left-3 top-3 rounded-full bg-[#0a0410]/75 px-3 py-1 font-mono text-[10px] text-white">{photo.year}</span>
+                {!project && <span className="absolute left-3 top-3 rounded-full bg-[#0a0410]/75 px-3 py-1 font-mono text-[10px] text-white">{photo.year}</span>}
                 <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#0a0410]/70 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true"><Expand size={15} /></span>
               </button>
             </figure>
@@ -169,9 +170,9 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false 
       <div className="mt-5 flex items-center justify-between gap-4">
         <span className="font-mono text-xs text-muted-foreground" aria-live={shouldPlay ? "off" : "polite"} aria-atomic="true">{String(selected + 1).padStart(2, "0")} / {String(photos.length).padStart(2, "0")}</span>
         <div className="flex gap-2">
-          <button type="button" className="icon-button" aria-label={paused || motionReduced ? "Play carousel" : "Pause carousel"} aria-controls={trackId} disabled={motionReduced || photos.length < 2} onClick={togglePlayback}>
+          {!project && <button type="button" className="icon-button" aria-label={paused || motionReduced ? "Play carousel" : "Pause carousel"} aria-controls={trackId} disabled={motionReduced || photos.length < 2} onClick={togglePlayback}>
             {paused || motionReduced ? <Play size={17} aria-hidden="true" /> : <Pause size={17} aria-hidden="true" />}
-          </button>
+          </button>}
           <button type="button" className="icon-button" aria-label="Previous photo" aria-controls={trackId} disabled={!emblaApi || photos.length < 2} onClick={() => navigate("previous")}><ArrowLeft size={18} aria-hidden="true" /></button>
           <button type="button" className="icon-button" aria-label="Next photo" aria-controls={trackId} disabled={!emblaApi || photos.length < 2} onClick={() => navigate("next")}><ArrowRight size={18} aria-hidden="true" /></button>
         </div>

@@ -32,7 +32,7 @@ export interface WinningProject {
   title: string
   description: string
   githubUrl: string
-  image?: { src: string; alt: string; width: number; height: number }
+  photos?: GalleryPhoto[]
   features?: { title: string; description: string }[]
   techStack?: string
   outcome?: string

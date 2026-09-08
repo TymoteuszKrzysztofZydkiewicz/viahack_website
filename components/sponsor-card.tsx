@@ -2,6 +2,14 @@
 
 export interface SponsorCardProps extends Omit<Sponsor, "href"> {
   href?: string
+  highlightTier?: boolean
+}
+
+const tierHighlights: Record<SponsorTier, string> = {
+  Platinum: "hover:border-[#a6d8ff] hover:shadow-[0_0_26px_2px_#a6d8ff66] focus-visible:ring-[#a6d8ff]",
+  Gold: "hover:border-[#f5cc65] hover:shadow-[0_0_24px_2px_#f5cc6555] focus-visible:ring-[#f5cc65]",
+  Silver: "hover:border-[#bfc5d0] hover:shadow-[0_0_24px_2px_#bfc5d055] focus-visible:ring-[#bfc5d0]",
+  Partner: "hover:shadow-lg hover:shadow-black/10 focus-visible:ring-cyan-300",
 }
 
 const tierStyles: Record<SponsorTier, { padding: string; logo: string }> = {
@@ -12,15 +20,17 @@ const tierStyles: Record<SponsorTier, { padding: string; logo: string }> = {
 }
 
 /** Tier controls artwork size; theme keeps the original logo colors legible. */
-export function SponsorCard({ logo, name, tier, theme, href }: SponsorCardProps) {
+export function SponsorCard({ logo, name, tier, theme, href, highlightTier = false }: SponsorCardProps) {
   const styles = tierStyles[tier]
   const className = [
-    "flex h-full items-center justify-center rounded-xl border transition-colors",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-4 focus-visible:ring-offset-[#130826]",
+    "flex h-full items-center justify-center rounded-xl border transition-[transform,background-color,border-color,box-shadow] duration-300 ease-out",
+    "motion-safe:hover:scale-[1.025] motion-safe:focus-visible:scale-[1.025]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[#130826]",
+    highlightTier ? tierHighlights[tier] : "hover:shadow-lg hover:shadow-black/10 focus-visible:ring-cyan-300",
     styles.padding,
     theme === "light"
-      ? "border-white/80 bg-white/95 hover:bg-white"
-      : "border-white/10 bg-white/5 hover:border-white/25 hover:bg-white/[0.08]",
+      ? "border-white/80 bg-white/95 hover:bg-gray-200 focus-visible:bg-gray-200"
+      : `border-white/10 bg-white/5 hover:bg-gray-400/15 focus-visible:border-white/25 focus-visible:bg-gray-400/15 ${highlightTier ? "" : "hover:border-white/25"}`,
   ].join(" ")
 
   const content = <img src={logo} alt={`${name} logo`} loading="lazy" decoding="async" className={`w-full object-contain ${styles.logo}`} />

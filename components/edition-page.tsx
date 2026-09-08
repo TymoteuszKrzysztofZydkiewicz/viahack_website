@@ -9,6 +9,12 @@ import { Reveal } from "@/components/reveal"
 import { SponsorCard } from "@/components/sponsor-card"
 
 const sponsorTiers: SponsorTier[] = ["Platinum", "Gold", "Silver", "Partner"]
+const sponsorHeadingColors: Record<SponsorTier, string> = {
+  Platinum: "text-[#a6d8ff]",
+  Gold: "text-[#f5cc65]",
+  Silver: "text-[#bfc5d0]",
+  Partner: "text-white/65",
+}
 const editionHeroImages = { "2025": edition2025Hero, "2026": edition2026Hero } as const
 const sponsorWidths: Record<SponsorTier, string> = {
   Platinum: "w-full max-w-xl",
@@ -37,18 +43,10 @@ function WinningProjectHighlight({ project }: { project: WinningProject }) {
             <Github size={16} aria-hidden="true" /> View on GitHub <ArrowUpRight size={15} aria-hidden="true" />
           </a>
         </div>
-        {project.image && (
-          <figure className="overflow-hidden rounded-xl border border-white/10">
-            <img
-              src={project.image.src}
-              alt={project.image.alt}
-              width={project.image.width}
-              height={project.image.height}
-              loading="lazy"
-              decoding="async"
-              className="h-auto w-full"
-            />
-          </figure>
+        {project.photos && (
+          <div className="min-w-0">
+            <PhotoCarousel photos={project.photos} label={`${project.title} project photos`} project />
+          </div>
         )}
         {project.features && (
           <div>
@@ -147,10 +145,10 @@ export function EditionPage({ edition }: { edition: Edition }) {
               if (!sponsors.length) return null
               return (
                 <Reveal key={tier}>
-                  <h3 className="mb-4 text-center text-xs font-medium tracking-wide text-white/65">{tier === "Partner" ? "Community partners" : `${tier} sponsors`}</h3>
+                    <h3 className={`mb-4 text-center tracking-wide ${edition.year === "2026" && tier !== "Partner" ? `text-xl font-semibold sm:text-2xl ${sponsorHeadingColors[tier]}` : "text-xs font-medium text-white/65"}`}>{tier === "Partner" ? "Community partners" : `${tier} sponsors`}</h3>
                   <ul className="flex flex-wrap justify-center gap-4">
                     {sponsors.map((sponsor) => (
-                      <li key={sponsor.name} className={sponsorWidths[tier]}><SponsorCard {...sponsor} /></li>
+                      <li key={sponsor.name} className={sponsorWidths[tier]}><SponsorCard {...sponsor} highlightTier={edition.year === "2026"} /></li>
                     ))}
                   </ul>
                 </Reveal>
