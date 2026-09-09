@@ -18,7 +18,7 @@ function LightboxImage({ photo }: { photo: GalleryPhoto }) {
   const [failed, setFailed] = useState(false)
 
   return failed ? (
-    <div className="flex h-full flex-col items-center justify-center gap-4 text-center text-white/70" role="status">
+    <div className="flex h-full flex-col items-center justify-center gap-4 text-center text-muted-foreground" role="status">
       <ImageOff size={36} aria-hidden="true" />
       <p>This photo could not be loaded.</p>
       <p className="text-sm">You can still browse the rest of the collection.</p>
@@ -55,9 +55,9 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
   return (
     <Dialog.Root open={Boolean(photo)} onOpenChange={open => { if (!open) onClose() }}>
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 z-[100] bg-[#090410]/95 backdrop-blur-xl" />
+        <Dialog.Overlay className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl" />
         <Dialog.Content
-          className="fixed inset-0 z-[101] flex h-[100dvh] flex-col text-white outline-none"
+          className="fixed inset-0 z-[101] flex h-[100dvh] flex-col text-foreground outline-none"
           onOpenAutoFocus={() => {
             opener.current = document.activeElement instanceof HTMLElement ? document.activeElement : null
           }}
@@ -126,8 +126,8 @@ export function Lightbox({ photos, index, onIndexChange, onClose }: LightboxProp
 
           <footer className="flex items-center justify-between gap-4 border-t border-white/10 px-5 py-5 sm:px-8">
             <div className="min-w-0" aria-live="polite" aria-atomic="true">
-              <Dialog.Description className="text-sm leading-relaxed text-white/85">{photo?.caption}</Dialog.Description>
-              <p className="mt-1 font-mono text-[11px] text-white/50">{index === null ? 0 : index + 1} / {photos.length} <span className="hidden sm:inline">&nbsp; · &nbsp; Use arrow keys to browse · Esc to close</span></p>
+              <Dialog.Description className="text-sm leading-relaxed text-foreground">{photo?.caption}</Dialog.Description>
+              <p className="mt-1 font-mono text-[11px] text-muted-foreground">{index === null ? 0 : index + 1} / {photos.length} <span className="hidden sm:inline">&nbsp; · &nbsp; Use arrow keys to browse · Esc to close</span></p>
             </div>
             <div className="flex shrink-0 gap-2">
               <button type="button" className="icon-button border-white/20 bg-white/5" onClick={() => navigate(-1)} disabled={!canNavigate} aria-label="Previous photo"><ArrowLeft size={20} aria-hidden="true" /></button>

@@ -25,7 +25,7 @@ npm run dev
 | `components/lightbox.tsx` | Controlled, accessible photo dialog |
 | `components/photo-carousel.tsx` | Continuously looping photo previews with in-place lightbox |
 
-The shared layout owns the sticky navigation, skip link, main landmark, and footer. Branding uses the pixel cat and a smooth top-to-bottom background gradient from `#2a1147` to `#0a0410`, with the existing pink and cyan accents.
+The shared layout owns the sticky navigation, skip link, main landmark, footer, and `site-background` theme. Every route uses the same smooth gradient from `#4a237a` to `#0a0410`, fading over 120rem (or the viewport height when taller) before continuing in the dark base color. This keeps the background stable when navigating or filtering the gallery. Content panels share the `surface` opacity; text and accents use the `foreground`, `muted-foreground`, `primary`, `secondary`, and `accent` theme colors.
 
 ## Sponsor and team data
 

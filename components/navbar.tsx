@@ -57,18 +57,18 @@ export function Navbar() {
   }, [open])
 
   return (
-    <header ref={header} className="sticky top-0 z-50 border-b border-white/[0.07] bg-[#2a1147]/80 backdrop-blur-xl">
+    <header ref={header} className="sticky top-0 z-50 border-b border-white/10 bg-brand-purple/80 backdrop-blur-xl">
       <div className="page-container flex h-20 items-center justify-between gap-5">
         <Link href="/" aria-label="VIAHACK home" className="flex shrink-0 items-center gap-2.5" onClick={() => setOpen(false)}>
           <Image src="/icon.png" width={42} height={42} alt="" priority className="pixel-art h-[42px] w-[42px] object-contain" />
-          <span className="wordmark pixel-brand text-white">VIAHACK</span>
+          <span className="wordmark pixel-brand text-foreground">VIAHACK</span>
         </Link>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-5 lg:flex xl:gap-7">
           {links.map((link) => {
             const active = pathname === link.href
             return (
-              <Link key={link.href} href={link.href} aria-current={active ? "page" : undefined} className={`nav-link relative whitespace-nowrap py-2 ${active ? "!text-white" : ""}`}>
+              <Link key={link.href} href={link.href} aria-current={active ? "page" : undefined} className={`nav-link relative whitespace-nowrap py-2 ${active ? "!text-foreground" : ""}`}>
                 {link.label}
                 {active && <span aria-hidden="true" className="absolute -bottom-[19px] left-0 right-0 h-px bg-primary" />}
               </Link>

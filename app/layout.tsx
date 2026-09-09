@@ -24,13 +24,13 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-    themeColor: "#2a1147",
+    themeColor: "#4a237a",
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en" className="dark">
-        <body id="top" className={`${inter.variable} ${pixelFont.variable} font-sans antialiased`}>
+        <body id="top" className={`${inter.variable} ${pixelFont.variable} site-background font-sans antialiased`}>
           <a href="#main-content" className="skip-link">Skip to content</a>
           <Navbar />
           <main id="main-content" tabIndex={-1}>{children}</main>

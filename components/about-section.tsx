@@ -4,7 +4,7 @@ import { Reveal } from "./reveal"
 const features = [
   { icon: Flag, title: "3rd edition of VIAHack", text: "Join our student-led hackathon in February 2027 at VIA University College.", color: "text-primary" },
   { icon: Users, title: "Meet tech people", text: "Connect with fellow students, mentors, and people from the tech industry.", color: "text-secondary" },
-  { icon: Code2, title: "Build the solution", text: "Work as a team, explore an idea, and turn it into a working prototype.", color: "text-violet-300" },
+  { icon: Code2, title: "Build the solution", text: "Work as a team, explore an idea, and turn it into a working prototype.", color: "text-accent" },
 ]
 
 export function AboutSection() {

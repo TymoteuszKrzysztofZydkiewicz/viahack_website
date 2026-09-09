@@ -11,6 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        'brand-purple': '#4a237a',
+        surface: 'rgb(255 255 255 / 0.025)',
         background: 'hsl(var(--background))',
         foreground: 'hsl(var(--foreground))',
         card: {

@@ -17,7 +17,7 @@ export function HeroSection() {
         </div>
         <Reveal className="relative z-10 text-center">
           <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK</h1>
-          <p className="pixel-brand mt-7 text-lg text-white/85 sm:text-2xl">Next edition February 2027</p>
+          <p className="pixel-brand mt-7 text-lg text-foreground sm:text-2xl">Next edition February 2027</p>
           <p className="pixel-brand mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</p>
         </Reveal>
       </div>

@@ -160,8 +160,8 @@ export function PhotoCarousel({ photos, label = "Event photos", compact = false,
                   style={{ objectPosition: photo.position ?? "center" }}
                   draggable={false}
                 />
-                {!project && <span className="absolute left-3 top-3 rounded-full bg-[#0a0410]/75 px-3 py-1 font-mono text-[10px] text-white">{photo.year}</span>}
-                <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-[#0a0410]/70 text-white opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true"><Expand size={15} /></span>
+                {!project && <span className="absolute left-3 top-3 rounded-full bg-background/75 px-3 py-1 font-mono text-[10px] text-foreground">{photo.year}</span>}
+                <span className="absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full bg-background/70 text-foreground opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100" aria-hidden="true"><Expand size={15} /></span>
               </button>
             </figure>
           ))}
