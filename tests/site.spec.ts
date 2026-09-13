@@ -47,7 +47,7 @@ test("home keeps the requested copy, single collaboration CTA and minimal footer
   page.on("pageerror", error => errors.push(error.message))
   await page.goto("/")
   await expect(page.getByRole("heading", { level: 1 })).toHaveText("VIAHACK")
-  await expect(page.getByText("Next edition February 2027", { exact: true })).toBeVisible()
+  await expect(page.getByText("6-7.02.2027", { exact: true })).toBeVisible()
   await expect(page.locator("#home")).toContainText("Horsens, Denmark")
   for (const title of ["3rd edition of VIAHack", "Meet tech people", "Build the solution"]) {
     await expect(page.getByRole("heading", { name: title, exact: true })).toBeVisible()

@@ -1,6 +1,7 @@
 ﻿import type { Sponsor, SponsorTier } from "@/lib/types"
 
-export interface SponsorCardProps extends Omit<Sponsor, "href"> {
+export interface SponsorCardProps extends Omit<Sponsor, "href" | "logo"> {
+  logo?: string
   href?: string
   highlightTier?: boolean
 }
@@ -33,13 +34,16 @@ export function SponsorCard({ logo, name, tier, theme, href, highlightTier = fal
       : `border-white/10 bg-surface hover:bg-white/5 focus-visible:border-white/25 focus-visible:bg-white/5 ${highlightTier ? "" : "hover:border-white/25"}`,
   ].join(" ")
 
-  const content = <img src={logo} alt={`${name} logo`} loading="lazy" decoding="async" className={`w-full object-contain ${styles.logo}`} />
+  const placeholderColor = tier === "Gold" ? "text-[#f5cc65]" : tier === "Silver" ? "text-[#bfc5d0]" : "text-[#a6d8ff]"
+  const content = logo
+    ? <img src={logo} alt={`${name} logo`} loading="lazy" decoding="async" className={`w-full object-contain ${styles.logo}`} />
+    : <span className={`flex w-full items-center justify-center text-center text-lg font-semibold ${styles.logo} ${placeholderColor}`}>Coming soon</span>
 
   return href ? (
     <a
       href={href}
       target="_blank"
-      rel="noreferrer"
+      rel="noopener noreferrer"
       aria-label={`${name}, ${tier === "Partner" ? "community partner" : `${tier.toLowerCase()} sponsor`} (opens in a new tab)`}
       className={className}
     >
