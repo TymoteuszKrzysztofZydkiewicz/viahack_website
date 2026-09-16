@@ -2,7 +2,6 @@ import Image from "next/image"
 import { MapPin } from "lucide-react"
 import { PixelCloud, PixelStar } from "./pixel-decorations"
 import { Reveal } from "./reveal"
-import kamstrupLogo from "@/images/Kamstrup_Logo@3x-1030x233.png"
 
 export function HeroSection() {
   return (
@@ -17,14 +16,8 @@ export function HeroSection() {
           <Image src="/icon.png" alt="" width={144} height={144} priority className="pixel-float-slow pixel-art absolute bottom-[8%] right-[9%] h-24 w-24 object-contain sm:bottom-[11%] sm:right-[12%] sm:h-36 sm:w-36" />
         </div>
         <Reveal className="relative z-10 text-center">
-          <div className="flex flex-col items-center gap-5 sm:gap-6">
-            <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK</h1>
-            <a href="https://www.kamstrup.com/en-en" target="_blank" rel="noopener noreferrer" aria-label="Powered by Kamstrup (opens in a new tab)" className="inline-flex flex-nowrap items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-2 py-3 text-xl font-medium text-foreground backdrop-blur-sm transition-colors hover:border-white/25 hover:bg-white/10 sm:gap-4 sm:px-5 sm:py-4 sm:text-3xl">
-              <span className="pixel-brand whitespace-nowrap text-xs sm:text-lg">Powered by</span>
-              <Image src={kamstrupLogo} alt="Kamstrup" priority className="h-auto w-[132px] shrink-0 object-contain sm:w-64" />
-            </a>
-          </div>
-          <p className="pixel-brand mt-7 text-lg text-foreground sm:text-2xl">6-7.02.2027</p>
+          <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK</h1>
+          <p className="pixel-brand mt-7 text-lg text-foreground sm:text-2xl">Next edition February 2027</p>
           <p className="pixel-brand mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</p>
         </Reveal>
       </div>
