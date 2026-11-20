@@ -1,5 +1,7 @@
 import { test, expect, type Locator, type Page, type TestInfo } from "@playwright/test"
 
+const registrationUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfHsI6Q6D6mXWsDLtd1jmAvXKd61D-xCdREQDqeCF_OPsPTpA/viewform"
+
 async function expectNoOverflow(page: Page) {
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true)
 }
@@ -42,15 +44,53 @@ async function imagePath(image: Locator) {
   return decodeURIComponent(url.searchParams.get("url") ?? url.pathname)
 }
 
+async function expect2027Sponsors(section: Locator) {
+  await expect(section).toContainText("Kamstrup will provide a real-world industry challenge")
+  for (const sponsor of [
+    { name: "Kamstrup", tier: "Platinum", url: "https://www.kamstrup.com/en-en" },
+    { name: "Insero", tier: "Gold", url: "https://insero.dk/" },
+  ]) {
+    const tier = section.getByRole("heading", { name: `${sponsor.tier} sponsors`, exact: true })
+    const link = section.getByRole("link", { name: `${sponsor.name}, ${sponsor.tier.toLowerCase()} sponsor (opens in a new tab)` })
+    await expect(tier).toBeVisible()
+    await expect(link).toHaveAttribute("href", sponsor.url)
+    const logo = link.getByRole("img", { name: `${sponsor.name} logo` })
+    await logo.scrollIntoViewIfNeeded()
+    await expectImageLoaded(logo)
+  }
+  for (const [tier, count, color] of [["Gold", 1, "rgb(138, 101, 0)"], ["Silver", 4, "rgb(97, 106, 120)"]] as const) {
+    const list = section.getByRole("heading", { name: `${tier} sponsors`, exact: true }).locator("+ ul")
+    const placeholders = list.getByText("Coming Soon", { exact: true })
+    await expect(placeholders).toHaveCount(count)
+    for (const placeholder of await placeholders.all()) {
+      await expect(placeholder).toHaveCSS("color", color)
+      await expect(placeholder.locator("..")).toHaveCSS("background-color", "rgb(255, 255, 255)")
+    }
+  }
+  await expect(section.getByText("Coming Soon", { exact: true })).toHaveCount(5)
+  await expect(section.getByRole("link")).toHaveCount(2)
+}
+
 test("home keeps the requested copy, single collaboration CTA and minimal footer", async ({ page }, testInfo) => {
   const errors: string[] = []
   page.on("pageerror", error => errors.push(error.message))
   await page.goto("/")
-  await expect(page.getByRole("heading", { level: 1 })).toHaveText("VIAHACK")
-  await expect(page.getByText("Next edition February 2027", { exact: true })).toBeVisible()
-  await expect(page.locator("#home")).toContainText("Horsens, Denmark")
+  const hero = page.locator("#home")
+  await expect(hero.getByRole("heading", { level: 1 })).toHaveText("VIAHACK 2027")
+  await expect(hero.getByText("6–7 February 2027", { exact: true })).toBeVisible()
+  await expect(hero).toContainText("Horsens, Denmark")
+  await expect(hero.getByText("Powered by", { exact: true })).toBeVisible()
+  const kamstrup = hero.getByRole("img", { name: "Kamstrup" })
+  await expectImageLoaded(kamstrup)
+  await expect(kamstrup).toHaveCSS("filter", "none")
+  await expect(page.locator("#home + section")).toHaveAttribute("id", "sponsors")
+  await expect2027Sponsors(page.locator("#sponsors"))
+  const about = page.locator("#about")
   for (const title of ["3rd edition of VIAHack", "Meet tech people", "Build the solution"]) {
-    await expect(page.getByRole("heading", { name: title, exact: true })).toBeVisible()
+    await expect(about.getByRole("heading", { name: title, exact: true })).toBeVisible()
+  }
+  for (const detail of ["45,000 DKK prize pool", "students from any university", "within the 12 months", "Participation is free", "Sign up individually", "form a team at the event"]) {
+    await expect(about).toContainText(detail)
   }
   const contact = page.locator("main").getByRole("link", { name: "Contact Us", exact: true })
   await expect(contact).toHaveCount(1)
@@ -77,6 +117,61 @@ test("home keeps the requested copy, single collaboration CTA and minimal footer
   await expect(footer).toHaveText("VIA University College, Horsens, Denmark")
   await capturePage(page, testInfo, "home.png")
   expect(errors).toEqual([])
+})
+
+test("navigation lists only Home, past editions and Gallery", async ({ page, isMobile }) => {
+  await page.goto("/")
+  const nav = page.getByRole("navigation", { name: isMobile ? "Mobile navigation" : "Main navigation" })
+  if (isMobile) await page.getByRole("button", { name: "Open menu" }).click()
+  await expect(nav.locator(":scope > a")).toHaveText(["Home", "2026 Edition", "2025 Edition", "Gallery"])
+  for (const [label, href] of [["Home", "/"], ["2026 Edition", "/2026"], ["2025 Edition", "/2025"], ["Gallery", "/gallery"]]) {
+    await expect(nav.getByRole("link", { name: label, exact: true })).toHaveAttribute("href", href)
+  }
+
+  for (const path of ["/2027", "/participate"]) {
+    expect((await page.request.get(path)).status()).toBe(404)
+  }
+})
+
+test("the header and homepage hero open the same registration form", async ({ page, isMobile }) => {
+  await page.route(registrationUrl, route => route.fulfill({ body: "Registration form" }))
+  await page.goto("/")
+  const heroSignup = page.locator("#home").getByRole("link", { name: "Sign Up", exact: true })
+  await expect(heroSignup).toHaveAttribute("href", registrationUrl)
+  await heroSignup.click()
+  await expect(page).toHaveURL(registrationUrl)
+
+  await page.goto("/2026")
+  if (isMobile) await page.getByRole("button", { name: "Open menu" }).click()
+  const header = page.getByRole("banner")
+  const contact = header.getByRole("link", { name: "Contact Us", exact: true })
+  const signup = header.getByRole("link", { name: "Sign Up", exact: true })
+  await expect(contact).toBeVisible()
+  await expect(signup).toHaveAttribute("href", registrationUrl)
+  expect((await signup.boundingBox())?.x).toBeGreaterThan((await contact.boundingBox())?.x ?? 0)
+  expect((await signup.boundingBox())?.y).toBe((await contact.boundingBox())?.y)
+  await signup.click()
+  await expect(page).toHaveURL(registrationUrl)
+})
+
+test("navigation and both header buttons fit at the desktop breakpoint", async ({ page, isMobile }) => {
+  test.skip(isMobile, "Tablet and desktop widths are covered in the desktop project")
+  await page.setViewportSize({ width: 1023, height: 768 })
+  await page.goto("/")
+  const menu = page.getByRole("button", { name: "Open menu" })
+  await expect(menu).toBeVisible()
+  await menu.click()
+  await expect(page.getByRole("navigation", { name: "Mobile navigation" })).toBeVisible()
+  await expectNoOverflow(page)
+
+  await page.setViewportSize({ width: 1024, height: 768 })
+  const desktopNav = page.getByRole("navigation", { name: "Main navigation" })
+  await expect(desktopNav.getByRole("link")).toHaveCount(4)
+  await expect(desktopNav).toBeVisible()
+  const header = page.getByRole("banner")
+  await expect(header.getByRole("link", { name: "Contact Us" })).toBeInViewport({ ratio: 1 })
+  await expect(header.getByRole("link", { name: "Sign Up" })).toBeInViewport({ ratio: 1 })
+  await expectNoOverflow(page)
 })
 
 for (const edition of [

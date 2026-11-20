@@ -1,6 +1,9 @@
 import Image from "next/image"
 import { MapPin } from "lucide-react"
+import { edition2027, kamstrupLogo } from "@/lib/edition-2027"
 import { PixelCloud, PixelStar } from "./pixel-decorations"
+import { PoweredBy } from "./powered-by"
+import { RegistrationLink } from "./registration-link"
 import { Reveal } from "./reveal"
 
 export function HeroSection() {
@@ -16,9 +19,11 @@ export function HeroSection() {
           <Image src="/icon.png" alt="" width={144} height={144} priority className="pixel-float-slow pixel-art absolute bottom-[8%] right-[9%] h-24 w-24 object-contain sm:bottom-[11%] sm:right-[12%] sm:h-36 sm:w-36" />
         </div>
         <Reveal className="relative z-10 text-center">
-          <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK</h1>
-          <p className="pixel-brand mt-7 text-lg text-foreground sm:text-2xl">Next edition February 2027</p>
+          <h1 id="hero-title" className="hero-title pixel-brand text-primary">VIAHACK 2027</h1>
+          <div className="mt-5"><PoweredBy name="Kamstrup" logo={kamstrupLogo} originalColor /></div>
+          <p className="pixel-brand mt-7 text-lg text-foreground sm:text-2xl">{edition2027.dates}</p>
           <p className="pixel-brand mt-5 flex items-center justify-center gap-2 text-sm text-muted-foreground"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</p>
+          <RegistrationLink className="mt-5" />
         </Reveal>
       </div>
     </section>

@@ -19,6 +19,22 @@ const tierStyles: Record<SponsorTier, { padding: string; logo: string }> = {
   Partner: { padding: "p-6", logo: "h-16 max-w-44" },
 }
 
+const placeholderTextColors: Record<SponsorTier, string> = {
+  Platinum: "text-[#38658a]",
+  Gold: "text-[#8a6500]",
+  Silver: "text-[#616a78]",
+  Partner: "text-gray-700",
+}
+
+export function SponsorPlaceholder({ tier }: { tier: SponsorTier }) {
+  const styles = tierStyles[tier]
+  return (
+    <div className={`flex h-full items-center justify-center rounded-xl border border-white bg-white text-center text-sm font-medium ${placeholderTextColors[tier]} ${styles.padding}`}>
+      <span className={`flex items-center ${styles.logo}`}>Coming Soon</span>
+    </div>
+  )
+}
+
 /** Tier controls artwork size; theme keeps the original logo colors legible. */
 export function SponsorCard({ logo, name, tier, theme, href, highlightTier = false }: SponsorCardProps) {
   const styles = tierStyles[tier]

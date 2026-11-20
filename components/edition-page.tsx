@@ -1,28 +1,17 @@
 ﻿import Link from "next/link"
-import { ArrowLeft, ArrowRight, ArrowUpRight, CalendarDays, Github, MapPin, Trophy } from "lucide-react"
+import { ArrowLeft, ArrowRight, ArrowUpRight, Github, Trophy } from "lucide-react"
 import edition2025Hero from "@/images/hackathon_2025_img2.jpg"
 import edition2026Hero from "@/images/2026/2026-fallback.jpg"
 import inseroLogo from "@/images/inseroLogoRect.png"
-import type { Edition, SponsorTier, WinningProject } from "@/lib/types"
+import type { Edition, WinningProject } from "@/lib/types"
 import { getGalleryPhotos, selectGalleryPhotos } from "@/lib/gallery"
+import { EditionHeader } from "@/components/edition-header"
 import { PhotoCarousel } from "@/components/photo-carousel"
+import { PoweredBy } from "@/components/powered-by"
 import { Reveal } from "@/components/reveal"
-import { SponsorCard } from "@/components/sponsor-card"
+import { SponsorsSection } from "@/components/sponsors-section"
 
-const sponsorTiers: SponsorTier[] = ["Platinum", "Gold", "Silver", "Partner"]
-const sponsorHeadingColors: Record<SponsorTier, string> = {
-  Platinum: "text-[#a6d8ff]",
-  Gold: "text-[#f5cc65]",
-  Silver: "text-[#bfc5d0]",
-  Partner: "text-muted-foreground",
-}
 const editionHeroImages = { "2025": edition2025Hero, "2026": edition2026Hero } as const
-const sponsorWidths: Record<SponsorTier, string> = {
-  Platinum: "w-full max-w-xl",
-  Gold: "w-full max-w-sm",
-  Silver: "w-full max-w-sm",
-  Partner: "w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)]",
-}
 
 function WinningProjectHighlight({ project }: { project: WinningProject }) {
   return (
@@ -81,64 +70,13 @@ export function EditionPage({ edition }: { edition: Edition }) {
 
   return (
     <>
-      <section className="pb-14 pt-8 sm:pb-16 sm:pt-10">
-        <div className="page-container">
-          <nav aria-label="Breadcrumb" className="mb-12 flex items-center gap-3 text-xs text-muted-foreground sm:mb-16">
-            <Link href="/" className="inline-flex items-center gap-2 transition-colors hover:text-foreground"><ArrowLeft size={14} aria-hidden="true" /> Home</Link>
-            <span aria-hidden="true">/</span>
-            <span className="text-foreground">{edition.year}</span>
-          </nav>
-          <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-            <Reveal>
-              <header className="flex flex-col items-start gap-5">
-                <h1 className="edition-title pixel-brand">
-                  VIAHACK
-                  <span className="mt-2 block text-primary">{edition.year}</span>
-                </h1>
-                {edition.year === "2026" && (
-                  <p className="inline-flex items-center gap-3 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 font-sans text-xs font-medium text-muted-foreground backdrop-blur-sm">
-                    <span className="whitespace-nowrap">Powered by</span>
-                    <img
-                      src={inseroLogo.src}
-                      alt="Insero"
-                      width={inseroLogo.width}
-                      height={inseroLogo.height}
-                      className="h-auto w-28 shrink-0 object-contain brightness-0 invert sm:w-32"
-                    />
-                  </p>
-                )}
-              </header>
-              <div className="mt-7 flex flex-col gap-3 text-sm text-muted-foreground sm:flex-row sm:flex-wrap sm:gap-x-6">
-                <span className="inline-flex items-center gap-2"><CalendarDays size={15} className="text-primary" aria-hidden="true" />{edition.dates}</span>
-                <span className="inline-flex items-center gap-2"><MapPin size={15} className="text-secondary" aria-hidden="true" />Horsens, Denmark</span>
-              </div>
-            </Reveal>
-            {heroPhoto && (
-              <Reveal delay={0.1}>
-                <img
-                  src={heroImage.src}
-                  alt={`VIAHACK ${edition.year} event photo`}
-                  width={heroImage.width}
-                  height={heroImage.height}
-                  className="aspect-[4/3] w-full rounded-2xl object-cover"
-                  style={{ objectPosition: heroPhoto?.position }}
-                  fetchPriority="high"
-                />
-              </Reveal>
-            )}
-          </div>
-          <Reveal className="mt-12 sm:mt-16">
-            <dl className="grid divide-y divide-white/10 border-y border-white/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {edition.stats.map((stat) => (
-                <div key={stat.label} className="flex flex-col-reverse items-center gap-2 px-5 py-7 text-center sm:py-9">
-                  <dt className="text-xs text-muted-foreground sm:text-sm">{stat.label}</dt>
-                  <dd className="text-3xl font-medium tracking-tight text-foreground sm:text-[2rem] lg:text-4xl">{stat.value}</dd>
-                </div>
-              ))}
-            </dl>
-          </Reveal>
-        </div>
-      </section>
+      <EditionHeader
+        year={edition.year}
+        dates={edition.dates}
+        poweredBy={edition.year === "2026" && <PoweredBy name="Insero" logo={inseroLogo} />}
+        photo={heroPhoto ? { image: heroImage, alt: `VIAHACK ${edition.year} event photo`, position: heroPhoto.position } : undefined}
+        stats={edition.stats}
+      />
 
       <section id="winning-project" className="scroll-mt-28 pb-16 pt-6 sm:pb-24 sm:pt-8">
         <div className="page-container">
@@ -149,29 +87,7 @@ export function EditionPage({ edition }: { edition: Edition }) {
         </div>
       </section>
 
-      <section className="section-space border-y border-white/10">
-        <div className="page-container">
-          <Reveal className="mb-12 text-center">
-            <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Sponsors &amp; partners</h2>
-          </Reveal>
-          <div className="mx-auto max-w-4xl space-y-9">
-            {sponsorTiers.map((tier) => {
-              const sponsors = edition.partners.filter((partner) => partner.tier === tier)
-              if (!sponsors.length) return null
-              return (
-                <Reveal key={tier}>
-                    <h3 className={`mb-4 text-center tracking-wide ${edition.year === "2026" && tier !== "Partner" ? `text-xl font-semibold sm:text-2xl ${sponsorHeadingColors[tier]}` : "text-xs font-medium text-muted-foreground"}`}>{tier === "Partner" ? "Community partners" : `${tier} sponsors`}</h3>
-                  <ul className="flex flex-wrap justify-center gap-4">
-                    {sponsors.map((sponsor) => (
-                      <li key={sponsor.name} className={sponsorWidths[tier]}><SponsorCard {...sponsor} highlightTier={edition.year === "2026"} /></li>
-                    ))}
-                  </ul>
-                </Reveal>
-              )
-            })}
-          </div>
-        </div>
-      </section>
+      <SponsorsSection sponsors={edition.partners} highlightTier={edition.year === "2026"} />
 
       <section className="page-container py-16 sm:py-24">
         <Reveal className="mb-8 flex flex-wrap items-center justify-between gap-5">

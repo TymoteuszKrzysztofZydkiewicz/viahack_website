@@ -1,93 +1,64 @@
-"use client"
+import { Reveal } from "@/components/reveal"
+import { SponsorCard, SponsorPlaceholder } from "@/components/sponsor-card"
+import type { Sponsor, SponsorTier } from "@/lib/types"
 
-import inseroLogo from "../images/inseroLogoRect.png"
-import kbsoftwareLogo from "../images/kbsoftware.png"
-import systematicLogo from "../images/systematicLogo.svg"
-import mainaiLogo from "../images/mainaiBlack.svg"
+const sponsorTiers: SponsorTier[] = ["Platinum", "Gold", "Silver", "Partner"]
+const sponsorHeadingColors: Record<SponsorTier, string> = {
+  Platinum: "text-[#a6d8ff]",
+  Gold: "text-[#f5cc65]",
+  Silver: "text-[#bfc5d0]",
+  Partner: "text-muted-foreground",
+}
+const sponsorWidths: Record<SponsorTier, string> = {
+  Platinum: "w-full max-w-xl",
+  Gold: "w-full max-w-sm",
+  Silver: "w-full max-w-sm",
+  Partner: "w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.75rem)]",
+}
+const compactSponsorWidths = {
+  ...sponsorWidths,
+  Gold: "w-[calc(50%-0.5rem)] max-w-sm",
+  Silver: "w-[calc(50%-0.5rem)] md:w-[calc(25%-0.75rem)]",
+}
 
-export function SponsorsSection() {
-    const platinum = [
-        { src: inseroLogo.src, link: "https://insero.dk", bg: "white" },
-    ]
+export function SponsorsSection({ sponsors, highlightTier = false, id, description, compact = false, placeholderCounts }: {
+  sponsors: Sponsor[]
+  highlightTier?: boolean
+  id?: string
+  description?: string
+  compact?: boolean
+  placeholderCounts?: Partial<Record<SponsorTier, number>>
+}) {
+  const widths = compact ? compactSponsorWidths : sponsorWidths
 
-    const gold = [
-        { src: mainaiLogo.src, link: "https://mainai.dk", bg: "white" },
-        { src: "", link: "", bg: "card" }
-    ]
-
-    const silver = [
-        { src: systematicLogo.src, link: "https://systematic.com", bg: "white" },
-        { src: kbsoftwareLogo.src, link: "https://kbsoftware.dk/", bg: "white" },
-        { src: "", link: "", bg: "card" }
-    ]
-
-    return (
-        <section id="sponsors" className="relative px-4 py-24">
-            <div className="max-w-6xl mx-auto">
-                <h2 className="font-pixel text-2xl md:text-3xl text-center text-neon-pink glow-pink mb-16">
-                    Our Sponsors for 2026
-                </h2>
-
-                {/* Single-column layout */}
-                <div className="flex flex-col items-center gap-16">
-
-                    {/* Platinum */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="font-pixel text-sm sm:text-base text-neon-cyan">Platinum</div>
-                        <div className="flex justify-center gap-4 flex-wrap w-full">
-                            {platinum.map((logo, i) => (
-                                <a
-                                    key={i}
-                                    href={logo.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`${logo.src == "" ? "pointer-events-none" : ""} w-56 sm:w-80 h-36 sm:h-56 flex items-center justify-center rounded-xl border border-border bg-${logo.bg} p-2 sm:p-4 hover:border-neon-cyan/40 transition-all`}
-                                >
-                                    <img src={logo.src} className="object-contain max-h-full max-w-full" alt="Platinum sponsor" />
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Gold */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="font-pixel text-sm sm:text-base text-[hsl(46_100%_55%)]">Gold</div>
-                        <div className="flex justify-center gap-4 flex-wrap w-full">
-                            {gold.map((logo, i) => (
-                                <a
-                                    key={i}
-                                    href={logo.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`${logo.src == "" ? "pointer-events-none" : ""} w-40 sm:w-56 h-28 sm:h-40 flex items-center justify-center rounded-xl border border-border bg-${logo.bg} p-2 sm:p-4 hover:border-[hsl(46_100%_55%)]/40 transition-all`}
-                                >
-
-                                    {logo.src !== "" ? <img src={logo.src} className="object-contain max-h-full max-w-full" alt="Gold sponsor" /> : <div className="max-h-full max-w-full font-pixel text-center text-neon-pink glow-pink">Coming Soon</div>}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Silver */}
-                    <div className="flex flex-col items-center gap-4">
-                        <div className="font-pixel text-sm sm:text-base text-muted-foreground">Silver</div>
-                        <div className="flex justify-center gap-4 flex-wrap w-full">
-                            {silver.map((logo, i) => (
-                                <a
-                                    key={i}
-                                    href={logo.link}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className={`${logo.src == "" ? "pointer-events-none" : ""} w-28 sm:w-36 h-20 sm:h-28 flex items-center justify-center rounded-xl border border-border bg-${logo.bg} p-2 sm:p-4 hover:border-neon-cyan/40 transition-all`}
-                                >
-                                    {logo.src !== "" ? <img src={logo.src} className="object-contain max-h-full max-w-full" alt="Gold sponsor" /> : <div className="max-h-full max-w-full font-pixel text-center text-neon-pink glow-pink text-xs">Coming Soon</div>}
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-    )
+  return (
+    <section id={id} className={`${compact ? "py-12 sm:py-16" : "section-space"} border-y border-white/10`}>
+      <div className="page-container">
+        <Reveal className={compact ? "mb-8 text-center" : "mb-12 text-center"}>
+          <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">Sponsors &amp; partners</h2>
+          {description && <p className="mt-5 text-sm text-muted-foreground sm:text-base">{description}</p>}
+        </Reveal>
+        <div className={`mx-auto max-w-4xl ${compact ? "space-y-6" : "space-y-9"}`}>
+          {sponsorTiers.map((tier) => {
+            const tierSponsors = sponsors.filter((sponsor) => sponsor.tier === tier)
+            const placeholderCount = placeholderCounts?.[tier] ?? 0
+            if (!tierSponsors.length && !placeholderCount) return null
+            return (
+              <Reveal key={tier}>
+                <h3 className={`mb-4 text-center tracking-wide ${highlightTier && tier !== "Partner" ? `text-xl font-semibold sm:text-2xl ${sponsorHeadingColors[tier]}` : "text-xs font-medium text-muted-foreground"}`}>{tier === "Partner" ? "Community partners" : `${tier} sponsors`}</h3>
+                <ul className="flex flex-wrap justify-center gap-4">
+                  {tierSponsors.map((sponsor) => (
+                    <li key={sponsor.name} className={widths[tier]}><SponsorCard {...sponsor} highlightTier={highlightTier} /></li>
+                  ))}
+                  {Array.from({ length: placeholderCount }, (_, index) => (
+                    <li key={index} className={widths[tier]}><SponsorPlaceholder tier={tier} /></li>
+                  ))}
+                </ul>
+              </Reveal>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
 }

@@ -1,10 +1,11 @@
 import { Code2, Flag, Users } from "lucide-react"
+import { edition2027 } from "@/lib/edition-2027"
 import { Reveal } from "./reveal"
 
 const features = [
-  { icon: Flag, title: "3rd edition of VIAHack", text: "Join our student-led hackathon in February 2027 at VIA University College.", color: "text-primary" },
-  { icon: Users, title: "Meet tech people", text: "Connect with fellow students, mentors, and people from the tech industry.", color: "text-secondary" },
-  { icon: Code2, title: "Build the solution", text: "Work as a team, explore an idea, and turn it into a working prototype.", color: "text-accent" },
+  { icon: Flag, title: "3rd edition of VIAHack", text: `Join our student-led hackathon at ${edition2027.venue}. Participation is free for students from any university and anyone who graduated within the 12 months before the event.`, color: "text-primary" },
+  { icon: Users, title: "Meet tech people", text: "Sign up individually and meet other participants as you find or form a team at the event.", color: "text-secondary" },
+  { icon: Code2, title: "Build the solution", text: <>Team up, develop your idea, and build a working prototype. Compete for a share of the <strong className="font-medium text-foreground">{edition2027.prizePool}</strong> prize pool.</>, color: "text-accent" },
 ]
 
 export function AboutSection() {
