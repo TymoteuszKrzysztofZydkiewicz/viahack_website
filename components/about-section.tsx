@@ -1,11 +1,21 @@
+import Image from "next/image"
 import { Code2, Flag, Users } from "lucide-react"
-import { edition2027 } from "@/lib/edition-2027"
+import { edition2027, kamstrupLogo } from "@/lib/edition-2027"
 import { Reveal } from "./reveal"
 
 const features = [
   { icon: Flag, title: "3rd edition of VIAHack", text: `Join our student-led hackathon at ${edition2027.venue}. Participation is free for students from any university and anyone who graduated within the 12 months before the event.`, color: "text-primary" },
-  { icon: Users, title: "Meet tech people", text: "Sign up individually and meet other participants as you find or form a team at the event.", color: "text-secondary" },
-  { icon: Code2, title: "Build the solution", text: <>Team up, develop your idea, and build a working prototype. Compete for a share of the <strong className="font-medium text-foreground">{edition2027.prizePool}</strong> prize pool.</>, color: "text-accent" },
+  { icon: Users, title: "Meet tech people", text: "Sign up individually, meet company representatives, and connect with other participants as you find or form a team at the event.", color: "text-secondary" },
+  {
+    icon: Code2,
+    title: "Build the solution",
+    text: <>
+      Team up, develop your idea, and build a working prototype for a real-world case from{" "}
+      <Image src={kamstrupLogo} alt="Kamstrup" className="inline-block h-auto w-24 rounded bg-white px-1.5 py-0.5 align-middle" />.
+      {" "}Compete for a share of the <strong className="font-medium text-foreground">{edition2027.prizePool}</strong> prize pool.
+    </>,
+    color: "text-accent",
+  },
 ]
 
 export function AboutSection() {

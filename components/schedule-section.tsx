@@ -1,93 +1,33 @@
 import { Clock } from "lucide-react"
+import { schedule2027 } from "@/lib/edition-2027"
+import { Reveal } from "./reveal"
 
 export function ScheduleSection() {
-  const day1 = [
-    { time: "15:00", event: "Opening Ceremony", type: "setup" },
-    { time: "16:00", event: "Coding Begins!", type: "coding" },
-  ]
-
-  const day2 = [
-    { time: "14:00", event: "Prejudging", type: "highlight" },
-    { time: "16:00", event: "Final pitch", type: "ceremony" },
-    { time: "17:00", event: "Winner announcements + Closing ceremony", type: "highlight" },
-  ]
-
-  const typeColors: Record<string, string> = {
-    setup: "border-muted-foreground/30",
-    ceremony: "border-neon-cyan/50",
-    highlight: "border-neon-pink/50",
-    coding: "border-neon-pink/50",
-    break: "border-muted-foreground/20",
-    mentor: "border-neon-cyan/50",
-  }
-
-  const typeDots: Record<string, string> = {
-    setup: "bg-muted-foreground",
-    ceremony: "bg-neon-cyan",
-    highlight: "bg-neon-pink",
-    coding: "bg-neon-pink",
-    break: "bg-muted-foreground/50",
-    mentor: "bg-neon-cyan",
-  }
-
   return (
-    <section id="schedule" className="relative px-4 py-24">
-      <div className="max-w-4xl mx-auto">
-        <h2 className="font-pixel text-2xl md:text-3xl text-center text-neon-pink glow-pink mb-4">
-          Event Schedule
-        </h2>
-        <p className="text-center text-muted-foreground mb-16 max-w-lg mx-auto leading-relaxed">
-        </p>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Day 1 */}
-          <div className="rounded-xl border border-border bg-card p-6 glow-box-pink">
-            <div className="flex items-center gap-3 mb-6">
-              <Clock className="h-5 w-5 text-neon-pink" />
-              <h3 className="font-pixel text-xs text-neon-pink">
-                Day 1 - March 20
-              </h3>
-            </div>
-            <div className="flex flex-col gap-3">
-              {day1.map((item) => (
-                <div
-                  key={item.time + item.event}
-                  className={`flex items-center gap-3 rounded-lg border ${typeColors[item.type]} bg-background/50 px-4 py-3`}
-                >
-                  <span className={`h-2 w-2 rounded-full shrink-0 ${typeDots[item.type]}`} />
-                  <span className="font-mono text-xs text-muted-foreground w-12 shrink-0">
-                    {item.time}
-                  </span>
-                  <span className="text-sm text-foreground">{item.event}</span>
-                </div>
+    <section id="schedule" className="page-container pb-20 sm:pb-28" aria-labelledby="schedule-title">
+      <Reveal className="section-heading">
+        <h2 id="schedule-title">Event schedule</h2>
+      </Reveal>
+      <div className="grid gap-6 md:grid-cols-2">
+        {schedule2027.map(({ date, events }, index) => (
+          <Reveal key={date} className="edition-card p-5 sm:p-7" delay={index * 0.08}>
+            <h3 className="flex items-center gap-3 text-lg font-semibold tracking-tight">
+              <Clock size={20} strokeWidth={1.5} className="shrink-0 text-secondary" aria-hidden="true" />
+              {date}
+            </h3>
+            <ul className="mt-4 divide-y divide-white/10">
+              {events.map(({ time, title, note }) => (
+                <li key={title} className="flex gap-3 py-3 text-sm leading-6 last:pb-0 sm:gap-5">
+                  <span className="w-24 shrink-0 whitespace-nowrap font-medium tabular-nums text-primary">{time}</span>
+                  <div>
+                    <span>{title}</span>
+                    {note && <p className="text-xs text-muted-foreground">{note}</p>}
+                  </div>
+                </li>
               ))}
-            </div>
-          </div>
-
-          {/* Day 2 */}
-          <div className="rounded-xl border border-border bg-card p-6 glow-box-cyan">
-            <div className="flex items-center gap-3 mb-6">
-              <Clock className="h-5 w-5 text-neon-cyan" />
-              <h3 className="font-pixel text-xs text-neon-cyan">
-                Day 2 - March 21
-              </h3>
-            </div>
-            <div className="flex flex-col gap-3">
-              {day2.map((item) => (
-                <div
-                  key={item.time + item.event}
-                  className={`flex items-center gap-3 rounded-lg border ${typeColors[item.type]} bg-background/50 px-4 py-3`}
-                >
-                  <span className={`h-2 w-2 rounded-full shrink-0 ${typeDots[item.type]}`} />
-                  <span className="font-mono text-xs text-muted-foreground w-12 shrink-0">
-                    {item.time}
-                  </span>
-                  <span className="text-sm text-foreground">{item.event}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+            </ul>
+          </Reveal>
+        ))}
       </div>
     </section>
   )

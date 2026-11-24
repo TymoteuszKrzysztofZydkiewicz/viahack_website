@@ -45,30 +45,29 @@ async function imagePath(image: Locator) {
 }
 
 async function expect2027Sponsors(section: Locator) {
-  await expect(section).toContainText("Kamstrup will provide a real-world industry challenge")
   for (const sponsor of [
     { name: "Kamstrup", tier: "Platinum", url: "https://www.kamstrup.com/en-en" },
     { name: "Insero", tier: "Gold", url: "https://insero.dk/" },
+    { name: "MainAI", tier: "Gold", url: "https://mainai.dk" },
+    { name: "Stibo Systems", tier: "Silver", url: "https://www.stibosystems.com/" },
   ]) {
     const tier = section.getByRole("heading", { name: `${sponsor.tier} sponsors`, exact: true })
-    const link = section.getByRole("link", { name: `${sponsor.name}, ${sponsor.tier.toLowerCase()} sponsor (opens in a new tab)` })
+    const link = tier.locator("+ ul").getByRole("link", { name: `${sponsor.name}, ${sponsor.tier.toLowerCase()} sponsor (opens in a new tab)` })
     await expect(tier).toBeVisible()
     await expect(link).toHaveAttribute("href", sponsor.url)
     const logo = link.getByRole("img", { name: `${sponsor.name} logo` })
     await logo.scrollIntoViewIfNeeded()
     await expectImageLoaded(logo)
   }
-  for (const [tier, count, color] of [["Gold", 1, "rgb(138, 101, 0)"], ["Silver", 4, "rgb(97, 106, 120)"]] as const) {
-    const list = section.getByRole("heading", { name: `${tier} sponsors`, exact: true }).locator("+ ul")
-    const placeholders = list.getByText("Coming Soon", { exact: true })
-    await expect(placeholders).toHaveCount(count)
-    for (const placeholder of await placeholders.all()) {
-      await expect(placeholder).toHaveCSS("color", color)
-      await expect(placeholder.locator("..")).toHaveCSS("background-color", "rgb(255, 255, 255)")
-    }
+  const silver = section.getByRole("heading", { name: "Silver sponsors", exact: true }).locator("+ ul")
+  const placeholders = silver.getByText("Coming Soon", { exact: true })
+  await expect(placeholders).toHaveCount(3)
+  for (const placeholder of await placeholders.all()) {
+    await expect(placeholder).toHaveCSS("color", "rgb(97, 106, 120)")
+    await expect(placeholder.locator("..")).toHaveCSS("background-color", "rgb(255, 255, 255)")
   }
-  await expect(section.getByText("Coming Soon", { exact: true })).toHaveCount(5)
-  await expect(section.getByRole("link")).toHaveCount(2)
+  await expect(section.getByText("Coming Soon", { exact: true })).toHaveCount(3)
+  await expect(section.getByRole("link")).toHaveCount(4)
 }
 
 test("home keeps the requested copy, single collaboration CTA and minimal footer", async ({ page }, testInfo) => {
@@ -89,9 +88,23 @@ test("home keeps the requested copy, single collaboration CTA and minimal footer
   for (const title of ["3rd edition of VIAHack", "Meet tech people", "Build the solution"]) {
     await expect(about.getByRole("heading", { name: title, exact: true })).toBeVisible()
   }
-  for (const detail of ["45,000 DKK prize pool", "students from any university", "within the 12 months", "Participation is free", "Sign up individually", "form a team at the event"]) {
+  for (const detail of ["45,000 DKK prize pool", "students from any university", "within the 12 months", "Participation is free", "Sign up individually", "form a team at the event", "company representatives", "real-world case from"]) {
     await expect(about).toContainText(detail)
   }
+  const caseLogo = about.getByText(/real-world case from/).getByRole("img", { name: "Kamstrup" })
+  await caseLogo.scrollIntoViewIfNeeded()
+  await expectImageLoaded(caseLogo)
+
+  const schedule = page.getByRole("region", { name: "Event schedule" })
+  await expect(page.locator("#about + section")).toHaveAttribute("id", "schedule")
+  for (const [date, events] of [
+    ["Saturday, 6 February", [/10:00–11:00\s*Opening ceremony/, /11:00–09:00\s*22 hours of coding\s*Ends on Sunday/, /16:00\s*Pizza time/]],
+    ["Sunday, 7 February", [/09:00–12:00\s*Judging/, /12:00–13:00\s*Closing ceremony and final results/]],
+  ] as const) {
+    const items = schedule.getByRole("heading", { name: date, exact: true }).locator("+ ul").getByRole("listitem")
+    await expect(items).toHaveText([...events])
+  }
+
   const contact = page.locator("main").getByRole("link", { name: "Contact Us", exact: true })
   await expect(contact).toHaveCount(1)
   await expect(contact).toHaveAttribute("href", "mailto:hackathon@viauc.dk")
